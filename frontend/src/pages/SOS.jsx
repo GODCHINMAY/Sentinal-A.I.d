@@ -125,6 +125,11 @@ function SOS() {
     setTimeout(() => {
       setCalling(false);
       setDroneDispatched(true);
+      
+      // Initialize drone position and start animation immediately
+      const randomPosition = generateRandomDronePosition();
+      setDronePosition(randomPosition);
+      startDroneAnimation(randomPosition);
     }, 3000);
   };
 
@@ -422,46 +427,42 @@ function SOS() {
               </div>
             )}
           </div>
-        ) : droneDispatched && !showTracker ? (
-          <div className="drone-dispatched">
-            <div className="success-icon">✓</div>
-            <h2>Drone Successfully Dispatched</h2>
-           
-            <div className="personal-message">
-              <p>Dear <strong>{userInfo.name}</strong>,</p>
-              <p>A drone is being dispatched to your location at <strong>{userInfo.locationDescription}</strong>.</p>
-              <p>We've received your emergency request and help is on the way.</p>
-            </div>
-           
-            <div className="drone-info">
-              <p><strong>ETA:</strong> 4 minutes</p>
-              <p><strong>Drone ID:</strong> SentinelAI-DR042</p>
-              <p><strong>Capabilities:</strong> Medical supplies, thermal imaging, communication relay</p>
-              <p><strong>Emergency Type:</strong> {userInfo.emergencyType.charAt(0).toUpperCase() + userInfo.emergencyType.slice(1)} Response</p>
-            </div>
-           
-            <p className="instructions">
-              Please remain in your current location if possible. The drone will establish
-              communication upon arrival. Your location has been shared with local emergency services.
-            </p>
-           
-            <div className="contact-confirmation">
-              <p>A confirmation SMS has been sent to: <strong>{formatPhoneNumber(userInfo.phone)}</strong></p>
-            </div>
-           
-            <button className="track-drone-button" onClick={handleTrackDrone}>TRACK DRONE LOCATION</button>
-          </div>
         ) : (
-          <div className="drone-tracker">
-            <h2>Drone Tracking</h2>
-            <div className="tracker-info">
-              <div className="eta-display">
-                <h3>Estimated Time of Arrival</h3>
-                <div className="eta-time">{formatETA(droneEta)}</div>
-                <p>Drone ID: SentinelAI-DR042</p>
+          <>
+            <div className="drone-dispatched">
+              <div className="success-icon">✓</div>
+              <h2>Drone Successfully Dispatched</h2>
+             
+              <div className="personal-message">
+                <p>Dear <strong>{userInfo.name}</strong>,</p>
+                <p>A drone is being dispatched to your location at <strong>{userInfo.locationDescription}</strong>.</p>
+                <p>We've received your emergency request and help is on the way.</p>
+              </div>
+              
+              <div className="drone-info">
+                <p><strong>ETA:</strong> {formatETA(droneEta)}</p>
+                <p><strong>Drone ID:</strong> SentinelAI-DR042</p>
+                <p><strong>Capabilities:</strong> Medical supplies, thermal imaging, communication relay</p>
+                <p><strong>Emergency Type:</strong> {userInfo.emergencyType.charAt(0).toUpperCase() + userInfo.emergencyType.slice(1)} Response</p>
               </div>
              
-              <div className="map-container">
+              <p className="instructions">
+                Please remain in your current location if possible. The drone will establish
+                communication upon arrival. Your location has been shared with local emergency services.
+              </p>
+             
+              <div className="contact-confirmation">
+                <p>A confirmation SMS has been sent to: <strong>{formatPhoneNumber(userInfo.phone)}</strong></p>
+              </div>
+            </div>
+            
+            <div className="drone-map-container">
+              <h3>Live Drone Tracking</h3>
+              <div className="eta-display">
+                <p>Estimated arrival in: <span className="eta-time">{formatETA(droneEta)}</span></p>
+              </div>
+              
+              <div className="map-wrapper">
                 {userInfo.coordinates && dronePosition && (
                   <MapContainer
                     center={[userInfo.coordinates.latitude, userInfo.coordinates.longitude]}
@@ -494,17 +495,19 @@ function SOS() {
                   </MapContainer>
                 )}
               </div>
+              
+              <div className="map-legend">
+                <div className="legend-item">
+                  <div className="legend-icon user-icon"></div>
+                  <span>Your Location</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-icon drone-icon"></div>
+                  <span>Emergency Drone</span>
+                </div>
+              </div>
             </div>
-           
-            <div className="tracker-status">
-              <p>Drone is currently <strong>en route</strong> to your location.</p>
-              <p>Please stay where you are if possible.</p>
-            </div>
-           
-            <button className="back-to-details" onClick={() => setShowTracker(false)}>
-              Back to Details
-            </button>
-          </div>
+          </>
         )}
       </div>
     </div>
