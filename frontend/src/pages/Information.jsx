@@ -1,7 +1,17 @@
-import React from 'react'
-import TypewriterText from '../components/TypewriterText'
+import React, { useState, useEffect } from 'react'
 
 function Information() {
+  const [showContent, setShowContent] = useState(false);
+  
+  useEffect(() => {
+    // Show all content after a 1-second delay
+    const timer = setTimeout(() => {
+      setShowContent(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
   const metrics = [
     {
       title: "Damage Severity Analysis",
@@ -30,6 +40,12 @@ function Information() {
     }
   ]
 
+  // Fade-in animation style
+  const fadeInStyle = {
+    opacity: showContent ? 1 : 0,
+    transition: 'opacity 0.5s ease-in',
+  };
+
   return (
     <div style={{
       padding: '20px',
@@ -53,12 +69,10 @@ function Information() {
           fontSize: '1.8rem',
           maxWidth: '1000px',
           margin: '0 auto',
-          lineHeight: '1.6'
+          lineHeight: '1.6',
+          ...fadeInStyle
         }}>
-          <TypewriterText 
-            text="Our advanced AI system analyzes disaster footage through five key metrics, providing emergency responders with critical insights for immediate action and resource allocation."
-            speed={20}
-          />
+          Our advanced AI system analyzes disaster footage through five key metrics, providing emergency responders with critical insights for immediate action and resource allocation.
         </p>
       </div>
       
@@ -89,13 +103,10 @@ function Information() {
               color: '#B0B0B0',
               fontSize: '1.6rem',
               lineHeight: '1.6',
-              flex: 1
+              flex: 1,
+              ...fadeInStyle
             }}>
-              <TypewriterText 
-                text={metric.description}
-                speed={20}
-                delay={1000 + index * 1000}
-              />
+              {metric.description}
             </p>
           </div>
         ))}
@@ -128,13 +139,10 @@ function Information() {
               color: '#B0B0B0',
               fontSize: '1.6rem',
               lineHeight: '1.6',
-              flex: 1
+              flex: 1,
+              ...fadeInStyle
             }}>
-              <TypewriterText 
-                text={metric.description}
-                speed={20}
-                delay={4000 + index * 1000}
-              />
+              {metric.description}
             </p>
           </div>
         ))}
