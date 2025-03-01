@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
 import favicon from "./favicon.ico";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import Information from './pages/Information'
 import About from './pages/About'
 import Analyze from './pages/Analyze'
 import Rebuild from './pages/Rebuild'
 import EarthDroneAnimation from "./pages/Globe";
+import SOS from './pages/SOS';
 
 // Add favicon link tag
 const link = document.createElement('link');
@@ -20,9 +21,32 @@ const fadeInAnimation = {
   animation: 'fadeIn 1s ease-in forwards'
 };
 
+// Add this CSS to your App.css or inline styles
+const sosButtonStyle = {
+  position: 'fixed',
+  top: '20px',
+  right: '20px',
+  backgroundColor: '#ff3333',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px',
+  padding: '10px 20px',
+  fontSize: '1.4rem',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  zIndex: 2000,
+  boxShadow: '0 0 10px rgba(255, 0, 0, 0.5)',
+  animation: 'pulse-light 2s infinite'
+};
+
 // Move Layout outside of App and use useLocation here
 function Layout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  const handleSOSClick = () => {
+    navigate('/sos');
+  };
   
   return (
     <div style={{ 
@@ -30,6 +54,14 @@ function Layout({ children }) {
       padding: '20px',
       paddingTop: '150px',
     }}>
+      {/* SOS Button */}
+      <button 
+        style={sosButtonStyle}
+        onClick={handleSOSClick}
+      >
+        SOS
+      </button>
+      
       <nav style={{
         position: 'fixed',
         top: 0,
@@ -326,6 +358,7 @@ function App() {
             <Rebuild />
           </Layout>
         } />
+        <Route path="/sos" element={<SOS />} />
       </Routes>
     </Router>
   );
