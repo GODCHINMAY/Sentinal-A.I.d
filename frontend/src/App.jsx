@@ -1,5 +1,111 @@
 import React, { useState } from "react";
 import "./App.css";
+import favicon from "./favicon.ico";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Information from './pages/Information'
+import About from './pages/About'
+import Analyze from './pages/Analyze'
+
+// Add favicon link tag
+const link = document.createElement('link');
+link.rel = 'icon';
+link.href = favicon;
+document.head.appendChild(link);
+
+// Add animation styles at the top of the file
+const fadeInAnimation = {
+  opacity: 0,
+  animation: 'fadeIn 1s ease-in forwards'
+};
+
+// Create a Layout component to wrap all pages
+function Layout({ children }) {
+  return (
+    <div style={{ 
+      minHeight: '100vh',
+      padding: '20px',
+      paddingTop: '150px'  // Increased padding to lower content
+    }}>
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        width: '800px',
+        maxWidth: '800px',
+        margin: '30px auto',
+        padding: '15px 40px',
+        display: 'flex',
+        justifyContent: 'center',
+        zIndex: 1000,
+        backgroundColor: '#333333',
+        borderRadius: '25px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',  // Added shadow
+        ...fadeInAnimation
+      }}>
+        <div style={{
+          display: 'flex',
+          gap: '60px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%'
+        }}>
+          <Link  // Home link
+            to="/" 
+            style={{
+              color: 'white',
+              textDecoration: 'none',
+              fontFamily: "'Inter', 'Segoe UI', sans-serif",
+              fontSize: '1.8rem',
+              fontWeight: '700',  // Made bolder
+              letterSpacing: '0.5px',
+              transition: 'opacity 0.3s',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+            }}
+            onMouseOver={(e) => e.target.style.opacity = '0.8'}
+            onMouseOut={(e) => e.target.style.opacity = '1'}
+          >
+            Home
+          </Link>
+          {/* Style for other links */}
+          {['analyze', 'information', 'about'].map(path => (
+            <Link 
+              key={path}
+              to={`/${path}`} 
+              style={{
+                color: 'white',
+                textDecoration: 'none',
+                fontFamily: "'Inter', 'Segoe UI', sans-serif",
+                fontSize: '1.8rem',
+                fontWeight: '400',  // Made lighter
+                letterSpacing: '0.5px',
+                transition: 'opacity 0.3s',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+              }}
+              onMouseOver={(e) => e.target.style.opacity = '0.8'}
+              onMouseOut={(e) => e.target.style.opacity = '1'}
+            >
+              {path.charAt(0).toUpperCase() + path.slice(1)}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <div style={{
+        borderRadius: '20px',
+        padding: '40px',
+        maxWidth: '1400px',
+        margin: '20px auto',
+        minHeight: 'calc(100vh - 200px)',
+        ...fadeInAnimation,
+        animationDelay: '0.3s'
+      }}>
+        {children}
+      </div>
+    </div>
+  )
+}
 
 function App() {
   const [file, setFile] = useState(null);
@@ -7,6 +113,7 @@ function App() {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [videoURL, setVideoURL] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   // 1) Select file from local
   const handleFileChange = (event) => {
@@ -82,108 +189,69 @@ function App() {
   };
 
   return (
-    <div className="app-container" style={{ 
-      display: 'flex', 
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      width: '100%',
-      padding: '20px'
-    }}>
-      <div className="hero-section" style={{textAlign: 'center', width: '100%'}}>
-        <h1>Sentinel AI</h1>
-        <h2>Revolutionizing Disaster Response Through AI-Powered Analysis</h2>
-      </div>
-
-      <div className="upload-section" style={{textAlign: 'center', width: '100%'}}>
-        <div className="action-buttons" style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
-          <button 
-            className="primary-button" 
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              transition: 'transform 0.2s',
-            }}
-            onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-          >
-            <input 
-              type="file" 
-              accept="video/*" 
-              onChange={handleFileChange}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                opacity: 0,
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <Layout>
+            <div className="app-container" style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}>
+              <div className="hero-section" style={{
+                textAlign: 'center', 
                 width: '100%',
-                height: '100%',
-                cursor: 'pointer'
-              }}
-            />
-            Choose Video
-          </button>
-          <button className="primary-button" onClick={handleUpload}>Upload</button>
-          <button className="secondary-button" onClick={handleProcess}>Process</button>
-        </div>
-      </div>
-
-      {videoURL && (
-        <div className="video-container" style={{textAlign: 'center', width: '100%', maxWidth: '600px'}}>
-          <video className="uploaded-video" controls>
-            <source src={videoURL} type="video/mp4" />
-          </video>
-        </div>
-      )}
-
-      {loading && (
-        <div className="loading-container" style={{textAlign: 'center', width: '100%'}}>
-          <div className="loading-spinner"></div>
-          <p>Analyzing video footage...</p>
-        </div>
-      )}
-
-      {analysis && (
-        <div className="frames-container" style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '20px',
-          width: '100%',
-          maxWidth: '1200px'
-        }}>
-          {analysis.map((frame, index) => (
-            <div key={index} className="frame-card">
-              <div className="frame-header">
-                <h2>Frame {index + 1}</h2>
-                <span className={`severity-badge ${frame.damage_severity.toLowerCase()}`}>
-                  {frame.damage_severity}
-                </span>
+                backgroundColor: 'transparent'  // Added to remove background
+              }}>
+                <h1>Sentinel AI</h1>
+                <h2>Revolutionizing Disaster Response Through AI-Powered Analysis</h2>
               </div>
-              <div className="frame-info">
-                <div className="info-row">
-                  <span className="info-label">Critical Response Level:</span>
-                  <span className="info-value">{frame.critical_response_level}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Infrastructure Affected:</span>
-                  <span className="info-value">{frame.infrastructure_affected}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Health Hazards:</span>
-                  <span className="info-value">{frame.health_hazards}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Civilian Rescue Needed:</span>
-                  <span className="info-value">{frame.civilian_rescue_needed}</span>
-                </div>
+
+              <div className="info-section" style={{
+                textAlign: 'center',
+                width: '100%',
+                marginBottom: '40px',
+                fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+              }}>
+                <h2 style={{
+                  color: '#ffffff',
+                  fontSize: '2.5rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                  backgroundColor: 'transparent'  // Added to ensure no background
+                }}>
+                  Make Better Informed Decisions When in Emergency Situations
+                </h2>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          </Layout>
+        } />
+        <Route path="/analyze" element={
+          <Layout>
+            <Analyze 
+              handleFileChange={handleFileChange}
+              handleUpload={handleUpload}
+              handleProcess={handleProcess}
+              videoURL={videoURL}
+              loading={loading}
+              analysis={analysis}
+            />
+          </Layout>
+        } />
+        <Route path="/information" element={
+          <Layout>
+            <Information />
+          </Layout>
+        } />
+        <Route path="/about" element={
+          <Layout>
+            <About />
+          </Layout>
+        } />
+      </Routes>
+    </Router>
   );
 }
 
