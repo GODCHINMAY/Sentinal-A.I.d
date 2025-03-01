@@ -1,4 +1,7 @@
 import React from 'react'
+import './Analyze.css'
+import '../components/AnalysisCharts.css'
+import AnalysisCharts from '../components/AnalysisCharts'
 
 function Analyze({ 
   handleFileChange, 
@@ -6,67 +9,23 @@ function Analyze({
   handleProcess, 
   videoURL, 
   loading, 
-  analysis 
+  analysis,
+  frameImages
 }) {
   return (
-    <div style={{
-      padding: '20px',
-      maxWidth: '1800px',
-      margin: '0 auto'
-    }}>
+    <div className="analyze-container">
       {/* Header Section */}
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '60px'
-      }}>
-        <h1 style={{
-          color: 'white',
-          fontSize: '3.5rem',
-          marginBottom: '30px',
-          fontWeight: '700'
-        }}>
-          Analyze Disaster Footage
-        </h1>
-        <p style={{
-          color: '#B0B0B0',
-          fontSize: '1.8rem',
-          maxWidth: '1000px',
-          margin: '0 auto',
-          lineHeight: '1.6'
-        }}>
+      <div className="header-section">
+        <h1 className="header-title">Analyze Disaster Footage</h1>
+        <p className="header-description">
           Upload your footage to receive AI-powered analysis of damage severity, critical response needs, and potential hazards.
         </p>
       </div>
 
       {/* Upload Section */}
-      <div style={{
-        backgroundColor: '#2A2A2A',
-        borderRadius: '20px',
-        padding: '40px',
-        marginBottom: '40px',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '20px',
-          marginBottom: '30px'
-        }}>
-          <button 
-            className="primary-button" 
-            style={{
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              padding: '15px 30px',
-              borderRadius: '10px',
-              fontSize: '1.6rem',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
+      <div className="upload-section">
+        <div className="button-container">
+          <button className="action-button choose-button">
             <input 
               type="file" 
               accept="video/*" 
@@ -83,136 +42,245 @@ function Analyze({
             />
             Choose Video
           </button>
-          <button 
-            onClick={handleUpload}
-            style={{
-              backgroundColor: '#2196F3',
-              color: 'white',
-              padding: '15px 30px',
-              borderRadius: '10px',
-              fontSize: '1.6rem',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-          >
+          <button className="action-button upload-button" onClick={handleUpload}>
             Upload
           </button>
-          <button 
-            onClick={handleProcess}
-            style={{
-              backgroundColor: '#FF5722',
-              color: 'white',
-              padding: '15px 30px',
-              borderRadius: '10px',
-              fontSize: '1.6rem',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-          >
+          <button className="action-button process-button" onClick={handleProcess}>
             Process
           </button>
         </div>
       </div>
 
-      {/* Video Preview */}
+      {/* Main Content Container */}
       {videoURL && (
-        <div style={{
-          backgroundColor: '#2A2A2A',
-          borderRadius: '20px',
-          padding: '40px',
-          marginBottom: '40px'
-        }}>
-          <h2 style={{
-            color: 'white',
-            fontSize: '2.4rem',
-            marginBottom: '30px',
-            textAlign: 'center'
-          }}>Video Preview</h2>
-          <video 
-            controls
-            style={{
-              width: '100%',
-              maxWidth: '1000px',
-              margin: '0 auto',
-              display: 'block',
-              borderRadius: '10px'
-            }}
-          >
-            <source src={videoURL} type="video/mp4" />
-          </video>
+        <div className="content-container-new">
+          {/* Top Row: Video Preview and Charts */}
+          <div className="top-row">
+            {/* Video Preview */}
+            <div className="video-preview-section">
+              <h2 className="section-title">Video Preview</h2>
+              <div className="video-container">
+                <video 
+                  controls
+                  className="video-player"
+                >
+                  <source src={videoURL} type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            {/* Charts Section */}
+            {analysis && (
+              <div className="charts-section">
+                <div className="chart-box">
+                  <h3>Damage Severity Distribution</h3>
+                  <div className="pie-chart-container">
+                    <div className="pie-legend">
+                      {/* Calculate severity counts */}
+                      {(() => {
+                        const severityCounts = analysis.reduce((acc, frame) => {
+                          acc[frame.damage_severity] = (acc[frame.damage_severity] || 0) + 1;
+                          return acc;
+                        }, {});
+                        
+                        const total = analysis.length;
+                        const severeCount = severityCounts['Severe'] || 0;
+                        const moderateCount = severityCounts['Moderate'] || 0;
+                        const minorCount = severityCounts['Minor'] || 0;
+                        
+                        return (
+                          <>
+                            {severeCount > 0 && (
+                              <div className="legend-item">
+                                <span className="color-box" style={{ backgroundColor: '#ff4d4d' }}></span>
+                                <span>Severe: {severeCount} ({Math.round(severeCount/total*100)}%)</span>
+                              </div>
+                            )}
+                            {moderateCount > 0 && (
+                              <div className="legend-item">
+                                <span className="color-box" style={{ backgroundColor: '#ffa500' }}></span>
+                                <span>Moderate: {moderateCount} ({Math.round(moderateCount/total*100)}%)</span>
+                              </div>
+                            )}
+                            {minorCount > 0 && (
+                              <div className="legend-item">
+                                <span className="color-box" style={{ backgroundColor: '#4CAF50' }}></span>
+                                <span>Minor: {minorCount} ({Math.round(minorCount/total*100)}%)</span>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
+                    <div className="pie-visualization">
+                      <div className="pie-chart">
+                        {/* Render pie slices */}
+                        {(() => {
+                          const severityCounts = analysis.reduce((acc, frame) => {
+                            acc[frame.damage_severity] = (acc[frame.damage_severity] || 0) + 1;
+                            return acc;
+                          }, {});
+                          
+                          const total = analysis.length;
+                          const severeCount = severityCounts['Severe'] || 0;
+                          const moderateCount = severityCounts['Moderate'] || 0;
+                          const minorCount = severityCounts['Minor'] || 0;
+                          
+                          return (
+                            <>
+                              {severeCount > 0 && (
+                                <div 
+                                  className="pie-slice severe" 
+                                  style={{ 
+                                    transform: `rotate(0deg)`,
+                                    clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(2 * Math.PI * severeCount / total)}% ${50 - 50 * Math.sin(2 * Math.PI * severeCount / total)}%, 50% 50%)`
+                                  }}
+                                ></div>
+                              )}
+                              {moderateCount > 0 && (
+                                <div 
+                                  className="pie-slice moderate" 
+                                  style={{ 
+                                    transform: `rotate(${360 * severeCount / total}deg)`,
+                                    clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(2 * Math.PI * moderateCount / total)}% ${50 - 50 * Math.sin(2 * Math.PI * moderateCount / total)}%, 50% 50%)`
+                                  }}
+                                ></div>
+                              )}
+                              {minorCount > 0 && (
+                                <div 
+                                  className="pie-slice minor" 
+                                  style={{ 
+                                    transform: `rotate(${360 * (severeCount + moderateCount) / total}deg)`,
+                                    clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.cos(2 * Math.PI * minorCount / total)}% ${50 - 50 * Math.sin(2 * Math.PI * minorCount / total)}%, 50% 50%)`
+                                  }}
+                                ></div>
+                              )}
+                            </>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="chart-box">
+                  <h3>Critical Response Levels</h3>
+                  <div className="bar-chart-container">
+                    {/* Render bar chart */}
+                    {(() => {
+                      // Process data for critical response levels
+                      const levelCounts = {};
+                      analysis.forEach(frame => {
+                        const level = frame.critical_response_level;
+                        levelCounts[level] = (levelCounts[level] || 0) + 1;
+                      });
+                      
+                      const levels = Object.keys(levelCounts).sort((a, b) => a - b);
+                      const maxCount = Math.max(...Object.values(levelCounts));
+                      
+                      return levels.map(level => (
+                        <div key={level} className="bar-group">
+                          <div className="bar-label">Level {level}</div>
+                          <div className="bar-wrapper">
+                            <div 
+                              className="bar" 
+                              style={{ 
+                                width: `${(levelCounts[level] / maxCount) * 100}%`,
+                                backgroundColor: level >= 4 ? '#ff4d4d' : level >= 2 ? '#ffa500' : '#4CAF50'
+                              }}
+                            ></div>
+                            <span className="bar-value">{levelCounts[level]}</span>
+                          </div>
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Row: Frames Grid */}
+          {analysis && (
+            <div className="frames-grid-section">
+              <h2 className="section-title">Analysis Results</h2>
+              <div className="frames-grid">
+                {analysis.map((frame, index) => (
+                  <div key={index} className="frame-card">
+                    <h3 className="frame-title">Frame {index + 1}</h3>
+                    
+                    {/* Frame image */}
+                    {frameImages && frameImages[index] && (
+                      <div className="frame-image-container">
+                        <img 
+                          src={frameImages[index].dataURL} 
+                          alt={`Frame ${index + 1}`} 
+                          className="frame-image"
+                        />
+                        <div className="frame-timestamp">
+                          Time: {Math.round(frameImages[index].time * 100) / 100}s
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="metrics-container">
+                      <div className="metric-box">
+                        <div className="metric-label">Damage Severity:</div>
+                        <div className={`metric-value ${
+                          frame.damage_severity === 'Severe' ? 'severity-severe' :
+                          frame.damage_severity === 'Moderate' ? 'severity-moderate' : 'severity-minor'
+                        }`}>
+                          {frame.damage_severity === 'Severe' ? '⭕ Severe' :
+                           frame.damage_severity === 'Moderate' ? '🟠 Moderate' : '🟢 Minor'}
+                        </div>
+                      </div>
+
+                      <div className="metric-box">
+                        <div className="metric-label">Critical Response Level:</div>
+                        <div className="metric-value">
+                          <span style={{color: '#FFD700'}}>⚠️</span>
+                          <span style={{color: '#ff4d4d', marginLeft: '8px'}}>Level {frame.critical_response_level}</span>
+                        </div>
+                      </div>
+
+                      <div className="metric-box">
+                        <div className="metric-label">Infrastructure:</div>
+                        <div className="metric-value">
+                          {frame.infrastructure_affected === 'Roads' ? '🛣️ Roads' :
+                           frame.infrastructure_affected === 'Schools' ? '🏫 Schools' :
+                           frame.infrastructure_affected === 'Hospitals' ? '🏥 Hospitals' :
+                           frame.infrastructure_affected === 'Bridges' ? '🌉 Bridges' :
+                           frame.infrastructure_affected === 'Utilities' ? '⚡ Utilities' :
+                           '🏗️ ' + frame.infrastructure_affected}
+                        </div>
+                      </div>
+
+                      <div className="metric-box">
+                        <div className="metric-label">Health Hazards:</div>
+                        <div className="metric-value">
+                          {frame.health_hazards === 'None' ? '✅ None' : '⚕️ ' + frame.health_hazards}
+                        </div>
+                      </div>
+
+                      <div className="metric-box">
+                        <div className="metric-label">Civilian Rescue:</div>
+                        <div className="metric-value">
+                          {frame.civilian_rescue_needed === 'Affirmative' ? '🚨 Required' : '✅ Not Required'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       {/* Loading State */}
       {loading && (
-        <div style={{
-          textAlign: 'center',
-          padding: '40px'
-        }}>
+        <div className="loading-container">
           <div className="loading-spinner"></div>
-          <p style={{
-            color: '#B0B0B0',
-            fontSize: '1.8rem',
-            marginTop: '20px'
-          }}>Analyzing video footage...</p>
-        </div>
-      )}
-
-      {/* Analysis Results */}
-      {analysis && (
-        <div style={{
-          backgroundColor: '#2A2A2A',
-          borderRadius: '20px',
-          padding: '40px'
-        }}>
-          <h2 style={{
-            color: 'white',
-            fontSize: '2.4rem',
-            marginBottom: '30px',
-            textAlign: 'center'
-          }}>Analysis Results</h2>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '30px'
-          }}>
-            {analysis.map((frame, index) => (
-              <div key={index} style={{
-                backgroundColor: '#333333',
-                borderRadius: '15px',
-                padding: '25px'
-              }}>
-                <h3 style={{
-                  color: 'white',
-                  fontSize: '1.8rem',
-                  marginBottom: '20px',
-                  borderBottom: '1px solid #444',
-                  paddingBottom: '10px'
-                }}>Frame {index + 1}</h3>
-                
-                <div style={{color: '#B0B0B0', fontSize: '1.4rem'}}>
-                  <div style={{marginBottom: '15px'}}>
-                    <strong>Damage Severity:</strong> {frame.damage_severity}
-                  </div>
-                  <div style={{marginBottom: '15px'}}>
-                    <strong>Critical Response Level:</strong> {frame.critical_response_level}
-                  </div>
-                  <div style={{marginBottom: '15px'}}>
-                    <strong>Infrastructure:</strong> {frame.infrastructure_affected}
-                  </div>
-                  <div style={{marginBottom: '15px'}}>
-                    <strong>Health Hazards:</strong> {frame.health_hazards}
-                  </div>
-                  <div>
-                    <strong>Civilian Rescue:</strong> {frame.civilian_rescue_needed}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="loading-text">Analyzing video footage...</p>
         </div>
       )}
     </div>
