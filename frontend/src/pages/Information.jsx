@@ -1,5 +1,5 @@
 import React from 'react'
-
+import TypewriterText from '../components/TypewriterText'
 
 function Information() {
   const metrics = [
@@ -55,10 +55,13 @@ function Information() {
           margin: '0 auto',
           lineHeight: '1.6'
         }}>
-          Our advanced AI system analyzes disaster footage through five key metrics, providing emergency responders with critical insights for immediate action and resource allocation.
+          <TypewriterText 
+            text="Our advanced AI system analyzes disaster footage through five key metrics, providing emergency responders with critical insights for immediate action and resource allocation."
+            speed={20}
+          />
         </p>
       </div>
-
+      
       {/* First row - 3 cards */}
       <div style={{
         display: 'grid',
@@ -87,7 +90,13 @@ function Information() {
               fontSize: '1.6rem',
               lineHeight: '1.6',
               flex: 1
-            }}>{metric.description}</p>
+            }}>
+              <TypewriterText 
+                text={metric.description}
+                speed={20}
+                delay={1000 + index * 1000}
+              />
+            </p>
           </div>
         ))}
       </div>
@@ -120,7 +129,13 @@ function Information() {
               fontSize: '1.6rem',
               lineHeight: '1.6',
               flex: 1
-            }}>{metric.description}</p>
+            }}>
+              <TypewriterText 
+                text={metric.description}
+                speed={20}
+                delay={4000 + index * 1000}
+              />
+            </p>
           </div>
         ))}
       </div>
