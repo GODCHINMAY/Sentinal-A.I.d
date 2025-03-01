@@ -1,7 +1,6 @@
 import React from 'react'
 import './Analyze.css'
 import '../components/AnalysisCharts.css'
-import AnalysisCharts from '../components/AnalysisCharts'
 import EnhancedCharts from '../components/EnhancedCharts'
 import InfrastructureHeatmap from '../components/InfrastructureHeatmap'
 
