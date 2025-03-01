@@ -10,61 +10,62 @@ function Analyze({
 }) {
   return (
     <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      width: '100%'
+      padding: '20px',
+      maxWidth: '1800px',
+      margin: '0 auto'
     }}>
-      <h1 className="text-4xl font-bold mb-6" style={{color: 'white'}}>Analyze Footage</h1>
-      
+      {/* Header Section */}
       <div style={{
-        maxWidth: '800px',
-        margin: '0 auto 40px',
-        padding: '20px',
-        borderRadius: '15px',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(5px)',
+        textAlign: 'center',
+        marginBottom: '60px'
       }}>
-        <h2 style={{
-          fontSize: '1.8rem',
-          color: '#ff9999',
-          marginBottom: '20px'
-        }}>How It Works</h2>
+        <h1 style={{
+          color: 'white',
+          fontSize: '3.5rem',
+          marginBottom: '30px',
+          fontWeight: '700'
+        }}>
+          Analyze Disaster Footage
+        </h1>
         <p style={{
-          color: 'white',
-          lineHeight: '1.6',
-          marginBottom: '20px'
+          color: '#B0B0B0',
+          fontSize: '1.8rem',
+          maxWidth: '1000px',
+          margin: '0 auto',
+          lineHeight: '1.6'
         }}>
-          Our AI-powered system analyzes disaster footage frame by frame to provide critical insights across five key metrics:
-        </p>
-        <ul style={{
-          color: 'white',
-          listStyle: 'none',
-          padding: '0',
-          marginBottom: '20px'
-        }}>
-          <li style={{margin: '10px 0'}}>🔍 Damage Severity (Severe, Moderate, Minor)</li>
-          <li style={{margin: '10px 0'}}>⚠️ Critical Response Level (Scale 1-5)</li>
-          <li style={{margin: '10px 0'}}>🏗️ Infrastructure Affected</li>
-          <li style={{margin: '10px 0'}}>🏥 Health Hazards</li>
-          <li style={{margin: '10px 0'}}>🚨 Civilian Rescue Needed</li>
-        </ul>
-        <p style={{color: 'white', lineHeight: '1.6'}}>
-          Upload your footage below to receive a detailed analysis that can help emergency responders make informed decisions.
+          Upload your footage to receive AI-powered analysis of damage severity, critical response needs, and potential hazards.
         </p>
       </div>
 
-      <div className="upload-section" style={{textAlign: 'center', width: '100%'}}>
-        <div className="action-buttons" style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
+      {/* Upload Section */}
+      <div style={{
+        backgroundColor: '#2A2A2A',
+        borderRadius: '20px',
+        padding: '40px',
+        marginBottom: '40px',
+        textAlign: 'center'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '20px',
+          marginBottom: '30px'
+        }}>
           <button 
             className="primary-button" 
             style={{
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              padding: '15px 30px',
+              borderRadius: '10px',
+              fontSize: '1.6rem',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
               position: 'relative',
-              overflow: 'hidden',
-              transition: 'transform 0.2s',
+              overflow: 'hidden'
             }}
-            onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
           >
             <input 
               type="file" 
@@ -82,63 +83,136 @@ function Analyze({
             />
             Choose Video
           </button>
-          <button className="primary-button" onClick={handleUpload}>Upload</button>
-          <button className="secondary-button" onClick={handleProcess}>Process</button>
+          <button 
+            onClick={handleUpload}
+            style={{
+              backgroundColor: '#2196F3',
+              color: 'white',
+              padding: '15px 30px',
+              borderRadius: '10px',
+              fontSize: '1.6rem',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Upload
+          </button>
+          <button 
+            onClick={handleProcess}
+            style={{
+              backgroundColor: '#FF5722',
+              color: 'white',
+              padding: '15px 30px',
+              borderRadius: '10px',
+              fontSize: '1.6rem',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Process
+          </button>
         </div>
       </div>
 
+      {/* Video Preview */}
       {videoURL && (
-        <div className="video-container" style={{textAlign: 'center', width: '100%', maxWidth: '600px'}}>
-          <video className="uploaded-video" controls>
+        <div style={{
+          backgroundColor: '#2A2A2A',
+          borderRadius: '20px',
+          padding: '40px',
+          marginBottom: '40px'
+        }}>
+          <h2 style={{
+            color: 'white',
+            fontSize: '2.4rem',
+            marginBottom: '30px',
+            textAlign: 'center'
+          }}>Video Preview</h2>
+          <video 
+            controls
+            style={{
+              width: '100%',
+              maxWidth: '1000px',
+              margin: '0 auto',
+              display: 'block',
+              borderRadius: '10px'
+            }}
+          >
             <source src={videoURL} type="video/mp4" />
           </video>
         </div>
       )}
 
+      {/* Loading State */}
       {loading && (
-        <div className="loading-container" style={{textAlign: 'center', width: '100%'}}>
+        <div style={{
+          textAlign: 'center',
+          padding: '40px'
+        }}>
           <div className="loading-spinner"></div>
-          <p>Analyzing video footage...</p>
+          <p style={{
+            color: '#B0B0B0',
+            fontSize: '1.8rem',
+            marginTop: '20px'
+          }}>Analyzing video footage...</p>
         </div>
       )}
 
+      {/* Analysis Results */}
       {analysis && (
-        <div className="frames-container" style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '20px',
-          width: '100%',
-          maxWidth: '1200px'
+        <div style={{
+          backgroundColor: '#2A2A2A',
+          borderRadius: '20px',
+          padding: '40px'
         }}>
-          {analysis.map((frame, index) => (
-            <div key={index} className="frame-card">
-              <div className="frame-header">
-                <h2>Frame {index + 1}</h2>
-                <span className={`severity-badge ${frame.damage_severity.toLowerCase()}`}>
-                  {frame.damage_severity}
-                </span>
+          <h2 style={{
+            color: 'white',
+            fontSize: '2.4rem',
+            marginBottom: '30px',
+            textAlign: 'center'
+          }}>Analysis Results</h2>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '30px'
+          }}>
+            {analysis.map((frame, index) => (
+              <div key={index} style={{
+                backgroundColor: '#333333',
+                borderRadius: '15px',
+                padding: '25px'
+              }}>
+                <h3 style={{
+                  color: 'white',
+                  fontSize: '1.8rem',
+                  marginBottom: '20px',
+                  borderBottom: '1px solid #444',
+                  paddingBottom: '10px'
+                }}>Frame {index + 1}</h3>
+                
+                <div style={{color: '#B0B0B0', fontSize: '1.4rem'}}>
+                  <div style={{marginBottom: '15px'}}>
+                    <strong>Damage Severity:</strong> {frame.damage_severity}
+                  </div>
+                  <div style={{marginBottom: '15px'}}>
+                    <strong>Critical Response Level:</strong> {frame.critical_response_level}
+                  </div>
+                  <div style={{marginBottom: '15px'}}>
+                    <strong>Infrastructure:</strong> {frame.infrastructure_affected}
+                  </div>
+                  <div style={{marginBottom: '15px'}}>
+                    <strong>Health Hazards:</strong> {frame.health_hazards}
+                  </div>
+                  <div>
+                    <strong>Civilian Rescue:</strong> {frame.civilian_rescue_needed}
+                  </div>
+                </div>
               </div>
-              <div className="frame-info">
-                <div className="info-row">
-                  <span className="info-label">Critical Response Level:</span>
-                  <span className="info-value">{frame.critical_response_level}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Infrastructure Affected:</span>
-                  <span className="info-value">{frame.infrastructure_affected}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Health Hazards:</span>
-                  <span className="info-value">{frame.health_hazards}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Civilian Rescue Needed:</span>
-                  <span className="info-value">{frame.civilian_rescue_needed}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
