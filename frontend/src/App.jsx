@@ -116,14 +116,80 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [videoURL, setVideoURL] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [frameImages, setFrameImages] = useState([]);
 
-  // 1) Select file from local
-  const handleFileChange = (event) => {
+  // Update the handleFileChange function to extract frames
+  const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
       setVideoURL(URL.createObjectURL(selectedFile));
+      
+      // Extract frames when a video is selected
+      try {
+        // Call the extractFrames function from Analyze component
+        const extractedFrames = await extractFramesFromVideo(selectedFile);
+        setFrameImages(extractedFrames);
+      } catch (error) {
+        console.error("Error extracting frames:", error);
+      }
     }
+  };
+
+  // Add this helper function to extract frames
+  const extractFramesFromVideo = (videoFile, numFrames = 5) => {
+    return new Promise((resolve) => {
+      const frames = [];
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.src = URL.createObjectURL(videoFile);
+      
+      video.onloadedmetadata = () => {
+        const duration = video.duration;
+        const interval = duration / (numFrames + 1);
+        let framesProcessed = 0;
+        
+        // Create canvas for frame extraction
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        
+        // Set dimensions
+        video.width = 640;
+        video.height = 360;
+        canvas.width = 640;
+        canvas.height = 360;
+        
+        // Function to capture a frame at a specific time
+        const captureFrame = (time) => {
+          video.currentTime = time;
+          
+          video.onseeked = () => {
+            // Draw the video frame to the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert canvas to data URL
+            const dataURL = canvas.toDataURL('image/jpeg');
+            frames.push({
+              time: time,
+              dataURL: dataURL
+            });
+            
+            framesProcessed++;
+            
+            // If we've processed all frames, resolve the promise
+            if (framesProcessed === numFrames) {
+              resolve(frames);
+            } else {
+              // Capture the next frame
+              captureFrame(interval * (framesProcessed + 1));
+            }
+          };
+        };
+        
+        // Start capturing frames
+        captureFrame(interval);
+      };
+    });
   };
 
   // 2) Upload file to backend
@@ -239,6 +305,7 @@ function App() {
               videoURL={videoURL}
               loading={loading}
               analysis={analysis}
+              frameImages={frameImages}
             />
           </Layout>
         } />
