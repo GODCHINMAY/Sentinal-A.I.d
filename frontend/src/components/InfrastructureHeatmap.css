@@ -1,0 +1,144 @@
+.infrastructure-heatmap-container {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #444;
+}
+
+.heatmap-title {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.infrastructure-heatmap {
+  width: 100%;
+}
+
+.heatmap-description {
+  color: #cccccc;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.heatmap-cell {
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.heatmap-cell:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cell-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.cell-type {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cell-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.cell-count {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cell-percentage {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.heatmap-legend {
+  background-color: #333;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.legend-title {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.legend-scale {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-color {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid #555;
+}
+
+.legend-label {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.no-data {
+  color: #ccc;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 30px;
+}
+
+@media (max-width: 768px) {
+  .heatmap-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  .cell-icon {
+    font-size: 2rem;
+  }
+  
+  .cell-type {
+    font-size: 1.1rem;
+  }
+  
+  .legend-scale {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+} 
