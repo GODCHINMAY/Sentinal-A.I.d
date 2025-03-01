@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
 import favicon from "./favicon.ico";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import Information from './pages/Information'
 import About from './pages/About'
 import Analyze from './pages/Analyze'
+import Rebuild from './pages/Rebuild'
 
 // Add favicon link tag
 const link = document.createElement('link');
@@ -18,13 +19,15 @@ const fadeInAnimation = {
   animation: 'fadeIn 1s ease-in forwards'
 };
 
-// Create a Layout component to wrap all pages
+// Move Layout outside of App and use useLocation here
 function Layout({ children }) {
+  const location = useLocation();
+  
   return (
     <div style={{ 
       minHeight: '100vh',
       padding: '20px',
-      paddingTop: '150px'  // Increased padding to lower content
+      paddingTop: '150px'
     }}>
       <nav style={{
         position: 'fixed',
@@ -54,13 +57,13 @@ function Layout({ children }) {
           <Link  // Home link
             to="/" 
             style={{
-              color: 'white',
+              color: location.pathname === "/" ? 'white' : '#B0B0B0',
               textDecoration: 'none',
               fontFamily: "'Inter', 'Segoe UI', sans-serif",
               fontSize: '1.8rem',
-              fontWeight: '700',  // Made bolder
+              fontWeight: location.pathname === "/" ? '700' : '400',
               letterSpacing: '0.5px',
-              transition: 'opacity 0.3s',
+              transition: 'all 0.3s ease',
               textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
             }}
             onMouseOver={(e) => e.target.style.opacity = '0.8'}
@@ -68,19 +71,18 @@ function Layout({ children }) {
           >
             Home
           </Link>
-          {/* Style for other links */}
-          {['analyze', 'information', 'about'].map(path => (
+          {['analyze', 'information', 'rebuild', 'about'].map(path => (
             <Link 
               key={path}
               to={`/${path}`} 
               style={{
-                color: 'white',
+                color: location.pathname === `/${path}` ? 'white' : '#B0B0B0',
                 textDecoration: 'none',
                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
                 fontSize: '1.8rem',
-                fontWeight: '400',  // Made lighter
+                fontWeight: location.pathname === `/${path}` ? '700' : '400',
                 letterSpacing: '0.5px',
-                transition: 'opacity 0.3s',
+                transition: 'all 0.3s ease',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
               }}
               onMouseOver={(e) => e.target.style.opacity = '0.8'}
@@ -248,6 +250,11 @@ function App() {
         <Route path="/about" element={
           <Layout>
             <About />
+          </Layout>
+        } />
+        <Route path="/rebuild" element={
+          <Layout>
+            <Rebuild />
           </Layout>
         } />
       </Routes>

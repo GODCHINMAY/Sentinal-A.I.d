@@ -8,13 +8,39 @@ function About() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '100%'
+      height: '100%',
+      padding: '40px'
     }}>
-      <h1 className="text-4xl font-bold mb-6" style={{color: 'white'}}>About Us</h1>
-      <p className="text-2xl mb-6" style={{color: 'white'}}>Made by Chinmay</p>
-      <Link to="/" className="text-blue-500 hover:text-blue-700">
-        ← Back to Home
-      </Link>
+      <h1 style={{
+        color: 'white',
+        fontSize: '3.5rem',
+        marginBottom: '40px',
+        fontWeight: '700'
+      }}>About Us</h1>
+      
+      <div style={{
+        backgroundColor: 'rgba(51, 51, 51, 0.7)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '20px',
+        padding: '40px',
+        maxWidth: '800px',
+        textAlign: 'center',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+      }}>
+        <p style={{
+          color: 'white',
+          fontSize: '2rem',
+          marginBottom: '30px',
+          lineHeight: '1.6'
+        }}>Made by Chinmay</p>
+        
+        <p style={{
+          color: '#ff9999',
+          fontSize: '1.6rem',
+          lineHeight: '1.6'
+        }}>Revolutionizing disaster response through artificial intelligence</p>
+      </div>
     </div>
   )
 }

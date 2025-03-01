@@ -17,6 +17,43 @@ function Analyze({
     }}>
       <h1 className="text-4xl font-bold mb-6" style={{color: 'white'}}>Analyze Footage</h1>
       
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto 40px',
+        padding: '20px',
+        borderRadius: '15px',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(5px)',
+      }}>
+        <h2 style={{
+          fontSize: '1.8rem',
+          color: '#ff9999',
+          marginBottom: '20px'
+        }}>How It Works</h2>
+        <p style={{
+          color: 'white',
+          lineHeight: '1.6',
+          marginBottom: '20px'
+        }}>
+          Our AI-powered system analyzes disaster footage frame by frame to provide critical insights across five key metrics:
+        </p>
+        <ul style={{
+          color: 'white',
+          listStyle: 'none',
+          padding: '0',
+          marginBottom: '20px'
+        }}>
+          <li style={{margin: '10px 0'}}>🔍 Damage Severity (Severe, Moderate, Minor)</li>
+          <li style={{margin: '10px 0'}}>⚠️ Critical Response Level (Scale 1-5)</li>
+          <li style={{margin: '10px 0'}}>🏗️ Infrastructure Affected</li>
+          <li style={{margin: '10px 0'}}>🏥 Health Hazards</li>
+          <li style={{margin: '10px 0'}}>🚨 Civilian Rescue Needed</li>
+        </ul>
+        <p style={{color: 'white', lineHeight: '1.6'}}>
+          Upload your footage below to receive a detailed analysis that can help emergency responders make informed decisions.
+        </p>
+      </div>
+
       <div className="upload-section" style={{textAlign: 'center', width: '100%'}}>
         <div className="action-buttons" style={{display: 'flex', justifyContent: 'center', gap: '10px'}}>
           <button 
