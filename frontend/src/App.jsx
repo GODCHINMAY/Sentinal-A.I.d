@@ -6,6 +6,7 @@ import Information from './pages/Information'
 import About from './pages/About'
 import Analyze from './pages/Analyze'
 import Rebuild from './pages/Rebuild'
+import EarthDroneAnimation from "./pages/Globe";
 
 // Add favicon link tag
 const link = document.createElement('link');
@@ -27,7 +28,7 @@ function Layout({ children }) {
     <div style={{ 
       minHeight: '100vh',
       padding: '20px',
-      paddingTop: '150px'
+      paddingTop: '150px',
     }}>
       <nav style={{
         position: 'fixed',
@@ -208,6 +209,7 @@ function App() {
               }}>
                 <h1>Sentinel AI</h1>
                 <h2>Revolutionizing Disaster Response Through AI-Powered Analysis</h2>
+                <EarthDroneAnimation />
               </div>
 
               <div className="info-section" style={{
