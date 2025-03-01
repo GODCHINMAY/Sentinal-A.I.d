@@ -300,7 +300,7 @@ function App() {
               alignItems: 'center',
               width: '100%',
             }}>
-              <h1 style={{ margin: '4% 0 0 0', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', color: 'red' }}>Sentinel AI</h1>
+              <h1 style={{ margin: '4% 0 0 0', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', color: 'red' }}>Sentinal-A.I.d</h1>
               <h2 style={{ margin: '0', textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', color: '#ffffff' }}>
                 Revolutionizing Disaster Response Through <span style={{ textDecoration: 'underline' }}><em>AI-Powered Analysis</em></span>
               </h2>
