@@ -51,8 +51,8 @@ function Layout({ children }) {
   return (
     <div style={{ 
       minHeight: '100vh',
-      padding: '20px',
-      paddingTop: '150px',
+      padding: '0',
+      paddingTop: '0',
     }}>
       {/* SOS Button */}
       <button 
@@ -67,22 +67,22 @@ function Layout({ children }) {
         top: 0,
         left: 0,
         right: 0,
-        width: '800px',
-        maxWidth: '800px',
+        width: '560px',
+        maxWidth: '560px',
         margin: '30px auto',
-        padding: '15px 40px',
+        padding: '10px 28px',
         display: 'flex',
         justifyContent: 'center',
         zIndex: 1000,
         backgroundColor: '#333333',
         borderRadius: '25px',
         border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',  // Added shadow
-        ...fadeInAnimation
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+        ...fadeInAnimation,
       }}>
         <div style={{
           display: 'flex',
-          gap: '60px',
+          gap: '42px',
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%'
@@ -93,9 +93,9 @@ function Layout({ children }) {
               color: location.pathname === "/" ? 'white' : '#B0B0B0',
               textDecoration: 'none',
               fontFamily: "'Inter', 'Segoe UI', sans-serif",
-              fontSize: '1.8rem',
+              fontSize: '1.26rem',
               fontWeight: location.pathname === "/" ? '700' : '400',
-              letterSpacing: '0.5px',
+              letterSpacing: '0.35px',
               transition: 'all 0.3s ease',
               textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
             }}
@@ -112,9 +112,9 @@ function Layout({ children }) {
                 color: location.pathname === `/${path}` ? 'white' : '#B0B0B0',
                 textDecoration: 'none',
                 fontFamily: "'Inter', 'Segoe UI', sans-serif",
-                fontSize: '1.8rem',
+                fontSize: '1.26rem',
                 fontWeight: location.pathname === `/${path}` ? '700' : '400',
-                letterSpacing: '0.5px',
+                letterSpacing: '0.35px',
                 transition: 'all 0.3s ease',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
               }}
@@ -300,32 +300,33 @@ function App() {
               alignItems: 'center',
               width: '100%',
             }}>
-              <div className="hero-section" style={{
-                textAlign: 'center', 
-                width: '100%',
-                backgroundColor: 'transparent'  // Added to remove background
-              }}>
-                <h1>Sentinel AI</h1>
-                <h2>Revolutionizing Disaster Response Through AI-Powered Analysis</h2>
-                <EarthDroneAnimation />
-              </div>
-
-              <div className="info-section" style={{
-                textAlign: 'center',
-                width: '100%',
-                marginBottom: '40px',
-                fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
-              }}>
-                <h2 style={{
-                  color: '#ffffff',
-                  fontSize: '2.5rem',
-                  fontWeight: '600',
-                  letterSpacing: '0.5px',
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                  backgroundColor: 'transparent'  // Added to ensure no background
-                }}>
-                  Make Better Informed Decisions When in Emergency Situations
-                </h2>
+              <h1 style={{ margin: '4% 0 0 0', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', color: 'red' }}>Sentinel AI</h1>
+              <h2 style={{ margin: '0', textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', color: '#ffffff' }}>
+                Revolutionizing Disaster Response Through <span style={{ textDecoration: 'underline' }}><em>AI-Powered Analysis</em></span>
+              </h2>
+              <div style={{margin: '0', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
+                <div style={{ flex: 1, display: 'flex' , justifyContent: 'center' }}>
+                  <EarthDroneAnimation />
+                </div>
+                <div style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div className="info-section" style={{
+                    textAlign: 'center',
+                    width: '100%',
+                    marginBottom: '0',
+                    fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', sans-serif"
+                  }}>
+                    <h2 style={{
+                      color: 'white',
+                      fontSize: '2.5rem',
+                      fontWeight: '600',
+                      letterSpacing: '0.5px',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                      backgroundColor: 'transparent'
+                    }}>
+                      Make Better Informed Decisions When in Emergency Situations
+                    </h2>
+                  </div>
+                </div>
               </div>
             </div>
           </Layout>

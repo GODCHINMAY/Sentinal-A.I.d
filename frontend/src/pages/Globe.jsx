@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import earthImage from '../assets/globe-removebg-preview.png';
+import earthImage from '../assets/earth.png';
 import droneImage from '../assets/pngegg.png';
 
 const EarthDroneAnimation = () => {
@@ -35,21 +35,7 @@ const EarthDroneAnimation = () => {
     });
   
     return (
-      <div style={{ position: 'relative', width: '900px', height: '900px', backgroundColor: '#1e293b', overflow: 'hidden', borderRadius: '12px' }}>
-        {/* Black circle behind the Earth */}
-        <div 
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '380px', // Diameter of the circle
-            height: '380px', // Diameter of the circle
-            borderRadius: '50%',
-            backgroundColor: 'black', // Fill color
-            zIndex: 0 // Ensure it is behind the Earth
-          }}
-        />
+      <div style={{ position: 'relative', width: '700px', height: '450px', backgroundColor: '#1e293b', overflow: 'hidden', borderRadius: '12px' }}>
         
         {/* Earth in the center */}
         <div 
@@ -62,7 +48,7 @@ const EarthDroneAnimation = () => {
           }}
         >
           {/* Earth image */}
-          <div style={{ width: '360px', height: '360px', borderRadius: '50%', backgroundColor: '#3b82f6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ width: '240px', height: '240px', borderRadius: '50%', backgroundColor: '#3b82f6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {/* If the image is in the public folder, use */}
             <img 
               src={earthImage} // Adjust the path if necessary
@@ -83,11 +69,11 @@ const EarthDroneAnimation = () => {
             zIndex: 2 // Ensure it is above the Earth
           }}
         >
-          <div style={{ width: '96px', height: '96px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ width: '68px', height: '68px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img 
               src={droneImage} // Adjust the path if necessary
               alt="Drone 1" 
-              style={{ width: '100%', height: '100%' }}
+              style={{ width: '100%', height: '100%', transform: 'scaleX(-1)' }}
             />
           </div>
         </div>
@@ -101,7 +87,7 @@ const EarthDroneAnimation = () => {
             zIndex: 2 // Ensure it is above the Earth
           }}
         >
-          <div style={{ width: '96px', height: '96px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ width: '68px', height: '68px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img 
               src={droneImage} // Placeholder image path, or adjust accordingly
               alt="Drone 2" 
