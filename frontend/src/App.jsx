@@ -306,21 +306,19 @@ function App() {
                 <h1 style={{ 
                   margin: '4% 0 0 0', 
                   textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', 
-                  color: 'red',
                   fontSize: '3rem'
                 }}>
-                  Sentinal-A.I.d
+                  <span style={{ color: 'white' }}>Sentinel</span>
+                  <span style={{ color: 'red' }}>-A.I.d</span>
                 </h1>
                 <h2 style={{ 
                   margin: '10px 0 30px 0', 
                   textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', 
                   color: '#ffffff',
-                  fontSize: '1.8rem'
+                  fontSize: '1.8rem',
+                  fontWeight: '500'
                 }}>
-                  Revolutionizing Disaster Response Through{" "}
-                  <span style={{ textDecoration: 'underline' }}>
-                    <em>AI-Powered Analysis</em>
-                  </span>
+                  Revolutionizing Disaster Response With Drones Through AI-Powered Analysis
                 </h2>
               </div>
               
