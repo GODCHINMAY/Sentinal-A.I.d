@@ -14,16 +14,6 @@ function About() {
       height: '100%',
       padding: '40px'
     }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        margin: '0 auto 40px',
-        height: '400px',
-        width: '100%'
-      }}>
-        <EarthDroneAnimation />
-      </div>
-      
       <h1 style={{
         color: 'white',
         fontSize: '3.5rem',
@@ -66,6 +56,15 @@ function About() {
           fontSize: '1.6rem',
           lineHeight: '1.6'
         }}>Revolutionizing disaster response through artificial intelligence</p>
+      </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '0 auto 40px',
+        height: '400px',
+        width: '100%'
+      }}>
+        <EarthDroneAnimation />
       </div>
     </div>
   )
