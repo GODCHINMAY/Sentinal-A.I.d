@@ -308,7 +308,7 @@ function Aid() {
       <div className="map-section">
         <MapContainer 
           center={defaultCenter} 
-          zoom={13} 
+          zoom={21} 
           style={{ height: '500px', width: '100%' }}
         >
           <TileLayer
@@ -420,7 +420,7 @@ function Aid() {
       {/* Mode Selection */}
       {step === 1 && (
         <div className="mode-selection">
-          <h2>How would you like to help?</h2>
+          <h2>What would you like to do?</h2>
           <div className="mode-buttons">
             <button 
               className="mode-button request-button"
