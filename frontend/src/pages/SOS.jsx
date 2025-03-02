@@ -25,6 +25,7 @@ function SOS() {
   const [droneEta, setDroneEta] = useState(240); // Initial ETA in seconds (4 minutes)
   const animationRef = useRef(null);
   const navigate = useNavigate();
+  const [showArrivalNotification, setShowArrivalNotification] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -206,6 +207,9 @@ function SOS() {
      
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
+      } else {
+        // Drone has arrived at the user's location
+        setShowArrivalNotification(true);
       }
     };
    
@@ -257,6 +261,10 @@ function SOS() {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleCloseArrivalNotification = () => {
+    setShowArrivalNotification(false);
   };
 
   return (
@@ -510,6 +518,22 @@ function SOS() {
           </>
         )}
       </div>
+
+      {showArrivalNotification && (
+        <div className="drone-arrival-notification">
+          <div className="arrival-header">
+            <h2 className="arrival-title">Drone Has Arrived!</h2>
+          </div>
+          <p className="arrival-message">
+            The emergency drone has reached your location. Please look around for the drone and follow any instructions provided through its communication system.
+          </p>
+          <div className="arrival-actions">
+            <button className="acknowledge-button" onClick={handleReturn}>
+              Return to Home
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
