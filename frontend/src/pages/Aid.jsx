@@ -3,6 +3,63 @@ import { MapContainer, TileLayer, Marker, Circle, Popup, Polyline, useMap } from
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Aid.css';
+import droneImage from '../assets/pngegg.png';
+import droneIcon from '../assets/camera-drone.png'; // Import the drone icon
+
+// Custom drone marker component that moves along the line
+function MovingDroneMarker({ startPoint, endPoint }) {
+  const map = useMap();
+  const [position, setPosition] = useState(startPoint);
+  const [progress, setProgress] = useState(0);
+  const markerRef = useRef(null);
+  
+  // Create custom drone icon
+  const droneMarkerIcon = new L.Icon({
+    iconUrl: droneIcon,
+    iconSize: [40, 40],
+    iconAnchor: [20, 20]
+  });
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 1) return 0; // Reset to start when reaching the end
+        return prev + 0.005; // Speed of movement
+      });
+    }, 50);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  useEffect(() => {
+    // Calculate position along the line based on progress
+    const lat = startPoint[0] + (endPoint[0] - startPoint[0]) * progress;
+    const lng = startPoint[1] + (endPoint[1] - startPoint[1]) * progress;
+    setPosition([lat, lng]);
+    
+    // Ensure marker is created before trying to access it
+    if (markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [progress, startPoint, endPoint]);
+  
+  return (
+    <Marker 
+      position={position} 
+      icon={droneMarkerIcon}
+      ref={markerRef}
+    >
+      <Popup>
+        <div className="marker-popup">
+          <h3>Drone Delivery</h3>
+          <p><strong>Status:</strong> En route</p>
+          <p><strong>Cargo:</strong> Water supplies</p>
+          <p><strong>ETA:</strong> 10 minutes</p>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
 
 // Map controller component to fit bounds
 function MapController({ locations }) {
@@ -62,6 +119,9 @@ function Aid() {
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [connectionLine, setConnectionLine] = useState(null);
+  const [activeTab, setActiveTab] = useState('available');
+  const [showMessage, setShowMessage] = useState(false);
+  const [dronePosition, setDronePosition] = useState(0);
   
   // Create custom icons using URLs instead of imports
   const requestMarkerIcon = new L.Icon({
@@ -300,6 +360,100 @@ function Aid() {
     }, 2000);
   };
   
+  // Animate drone along the path
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDronePosition(prev => {
+        if (prev >= 100) return 0;
+        return prev + 0.5;
+      });
+    }, 50);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const availableAid = [
+    {
+      id: 1,
+      type: 'Water',
+      quantity: '500 gallons',
+      location: 'Newark, DE',
+      provider: 'Nazim Karaca',
+      coordinates: '39.680693, -75.753817',
+      message: 'Hope this helps!',
+      status: 'En route'
+    },
+    {
+      id: 2,
+      type: 'Food',
+      quantity: '200 meals',
+      location: 'Wilmington, DE',
+      provider: 'Delaware Food Bank',
+      coordinates: '39.745949, -75.546589',
+      status: 'Available'
+    },
+    {
+      id: 3,
+      type: 'Medical Supplies',
+      quantity: '50 first aid kits',
+      location: 'Dover, DE',
+      provider: 'Delaware Medical Association',
+      coordinates: '39.158168, -75.524368',
+      status: 'Available'
+    }
+  ];
+
+  const requestedAid = [
+    {
+      id: 1,
+      type: 'Shelter',
+      quantity: 'For 20 people',
+      location: 'Smyrna, DE',
+      requester: 'Smyrna Community Center',
+      coordinates: '39.299236, -75.604094',
+      urgency: 'High'
+    },
+    {
+      id: 2,
+      type: 'Generators',
+      quantity: '5 units',
+      location: 'Milford, DE',
+      requester: 'Milford Hospital',
+      coordinates: '38.911697, -75.428454',
+      urgency: 'Critical'
+    }
+  ];
+
+  // Define the specific coordinates
+  const supplierCoords = [39.680605, -75.753669]; // Green point
+  const recipientCoords = [39.772907, -75.595519]; // Red point
+  
+  // Create custom icons for the markers
+  const greenMarkerIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  });
+  
+  const redMarkerIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  });
+  
+  // Add this to your existing getMapLocations function or create a new one
+  const getAllMapLocations = () => {
+    const locations = [...getMapLocations()];
+    
+    // Add the specific coordinates
+    locations.push(supplierCoords);
+    locations.push(recipientCoords);
+    
+    return locations;
+  };
+
   return (
     <div className="aid-container">
       <h1 className="aid-title">Emergency Aid Coordination</h1>
@@ -308,112 +462,99 @@ function Aid() {
       <div className="map-section">
         <MapContainer 
           center={defaultCenter} 
-          zoom={21} 
-          style={{ height: '500px', width: '100%' }}
+          zoom={12} 
+          style={{ height: '500px', width: '100%', zIndex: 1 }}
+          scrollWheelZoom={true}
+          dragging={true}
+          touchZoom={true}
+          doubleClickZoom={true}
+          boxZoom={true}
+          keyboard={true}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           
-          {/* Request Markers */}
-          {requests.map(request => (
-            <React.Fragment key={request.id}>
-              <Marker
-                position={[request.coordinates.latitude, request.coordinates.longitude]}
-                icon={requestMarkerIcon}
-              >
-                <Popup className="marker-popup">
-                  <h3>Aid Request</h3>
-                  <p><strong>From:</strong> {request.name}</p>
-                  <p><strong>Needs:</strong> {
-                    Object.entries(request.resources)
-                      .filter(([_, value]) => value)
-                      .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
-                      .join(', ')
-                  }</p>
-                  <p><strong>Details:</strong> {request.details}</p>
-                  <p><strong>Contact:</strong> {formatPhoneNumber(request.phone)}</p>
-                </Popup>
-              </Marker>
-              
-              <Circle
-                center={[request.coordinates.latitude, request.coordinates.longitude]}
-                radius={500}
-                pathOptions={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }}
-              />
-            </React.Fragment>
-          ))}
+          {/* Supplier Point - Green Circle */}
+          <Circle
+            center={supplierCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
           
-          {/* Supply Markers */}
-          {supplies.map(supply => (
-            <React.Fragment key={supply.id}>
-              <Marker
-                position={[supply.coordinates.latitude, supply.coordinates.longitude]}
-                icon={supplyMarkerIcon}
-              >
-                <Popup className="marker-popup">
-                  <h3>Aid Supply</h3>
-                  <p><strong>From:</strong> {supply.name}</p>
-                  <p><strong>Providing:</strong> {
-                    Object.entries(supply.resources)
-                      .filter(([_, value]) => value)
-                      .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
-                      .join(', ')
-                  }</p>
-                  <p><strong>Details:</strong> {supply.details}</p>
-                  <p><strong>Contact:</strong> {formatPhoneNumber(supply.phone)}</p>
-                </Popup>
-              </Marker>
-              
-              <Circle
-                center={[supply.coordinates.latitude, supply.coordinates.longitude]}
-                radius={500}
-                pathOptions={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }}
-              />
-            </React.Fragment>
-          ))}
+          {/* Supplier Marker */}
+          <Marker
+            position={supplierCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Water Supply</h3>
+              <p><strong>From:</strong> Nazim Karaca</p>
+              <p><strong>Sending:</strong> Clean drinking water</p>
+              <p><strong>Message:</strong> "Stay hydrated! We're here to help."</p>
+              <p><strong>Coordinates:</strong> 39.680605, -75.753669</p>
+            </Popup>
+          </Marker>
           
-          {/* Current Form Location */}
-          {formData.coordinates && (
-            <React.Fragment>
-              <Marker
-                position={[formData.coordinates.latitude, formData.coordinates.longitude]}
-                icon={mode === 'request' ? requestMarkerIcon : supplyMarkerIcon}
-              >
-                <Popup className="marker-popup">
-                  <h3>Your Location</h3>
-                  <p>{formData.locationDescription}</p>
-                </Popup>
-              </Marker>
-              
-              <Circle
-                center={[formData.coordinates.latitude, formData.coordinates.longitude]}
-                radius={500}
-                pathOptions={{ 
-                  color: mode === 'request' ? 'red' : 'green', 
-                  fillColor: mode === 'request' ? 'red' : 'green', 
-                  fillOpacity: 0.2 
-                }}
-              />
-            </React.Fragment>
-          )}
+          {/* Recipient Point - Red Circle */}
+          <Circle
+            center={recipientCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
           
-          {/* Connection Line between Request and Supply */}
-          {connectionLine && (
-            <Polyline
-              positions={connectionLine}
-              pathOptions={{ 
-                color: 'red', 
-                weight: 3, 
-                dashArray: '10, 10',
-                opacity: 0.7
-              }}
-            />
-          )}
+          {/* Recipient Marker */}
+          <Marker
+            position={recipientCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Water Needed</h3>
+              <p><strong>Location:</strong> Newark, DE</p>
+              <p><strong>Request:</strong> Clean drinking water</p>
+              <p><strong>Coordinates:</strong> 39.772907, -75.595519</p>
+            </Popup>
+          </Marker>
           
-          {/* Map Controller to fit bounds */}
-          <MapController locations={getMapLocations()} />
+          {/* Black Line Connecting the Points */}
+          <Polyline
+            positions={[supplierCoords, recipientCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={supplierCoords} 
+            endPoint={recipientCoords} 
+          />
+          
+          {/* Map Controller to fit all points */}
+          <MapController locations={[supplierCoords, recipientCoords]} />
         </MapContainer>
       </div>
       
@@ -641,6 +782,113 @@ function Aid() {
           </div>
         </div>
       )}
+      
+      <div className="aid-tabs">
+        <button 
+          className={`aid-tab ${activeTab === 'available' ? 'active' : ''}`}
+          onClick={() => setActiveTab('available')}
+        >
+          Available Aid
+        </button>
+        <button 
+          className={`aid-tab ${activeTab === 'requested' ? 'active' : ''}`}
+          onClick={() => setActiveTab('requested')}
+        >
+          Requested Aid
+        </button>
+      </div>
+      
+      {/* Map showing the aid location */}
+      <div className="aid-map">
+        <div className="map-container">
+          <div className="map-point green" onClick={() => setShowMessage(!showMessage)}>
+            <div className="point-pulse"></div>
+          </div>
+          <div className="map-point red"></div>
+          
+          {/* Line connecting points */}
+          <div className="map-line"></div>
+          
+          {/* Drone animation */}
+          <div 
+            className="drone-icon" 
+            style={{ 
+              left: `${dronePosition}%`,
+              top: `calc(50% - ${dronePosition * 0.2}px)`
+            }}
+          >
+            <img src={droneImage} alt="Drone" />
+          </div>
+          
+          {/* Coordinates */}
+          <div className="coordinates start">39.680693, -75.753817</div>
+          <div className="coordinates end">39.65, -75.72</div>
+        </div>
+        
+        {/* Message popup */}
+        {showMessage && (
+          <div className="aid-message">
+            <h3>Aid Shipment</h3>
+            <p><strong>From:</strong> Nazim Karaca</p>
+            <p><strong>Sending:</strong> Water supplies</p>
+            <p><strong>Message:</strong> "Hope this helps!"</p>
+            <p><strong>Status:</strong> <span className="status-active">En route</span></p>
+            <p><strong>Coordinates:</strong> 39.680693, -75.753817</p>
+            <button onClick={() => setShowMessage(false)}>Close</button>
+          </div>
+        )}
+      </div>
+      
+      <div className="aid-list">
+        {activeTab === 'available' ? (
+          <>
+            <h2>Available Aid Resources</h2>
+            {availableAid.map(aid => (
+              <div key={aid.id} className="aid-card">
+                <div className="aid-card-header">
+                  <h3>{aid.type}</h3>
+                  <span className={`aid-status ${aid.status === 'En route' ? 'en-route' : 'available'}`}>
+                    {aid.status}
+                  </span>
+                </div>
+                <div className="aid-card-body">
+                  <p><strong>Quantity:</strong> {aid.quantity}</p>
+                  <p><strong>Location:</strong> {aid.location}</p>
+                  <p><strong>Provider:</strong> {aid.provider}</p>
+                  <p><strong>Coordinates:</strong> {aid.coordinates}</p>
+                  {aid.message && <p><strong>Message:</strong> "{aid.message}"</p>}
+                </div>
+                <div className="aid-card-footer">
+                  <button>Request</button>
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <h2>Requested Aid</h2>
+            {requestedAid.map(aid => (
+              <div key={aid.id} className="aid-card">
+                <div className="aid-card-header">
+                  <h3>{aid.type}</h3>
+                  <span className={`aid-urgency ${aid.urgency.toLowerCase()}`}>
+                    {aid.urgency}
+                  </span>
+                </div>
+                <div className="aid-card-body">
+                  <p><strong>Quantity:</strong> {aid.quantity}</p>
+                  <p><strong>Location:</strong> {aid.location}</p>
+                  <p><strong>Requester:</strong> {aid.requester}</p>
+                  <p><strong>Coordinates:</strong> {aid.coordinates}</p>
+                </div>
+                <div className="aid-card-footer">
+                  <button>Provide Aid</button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }
