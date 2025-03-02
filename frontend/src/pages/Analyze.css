@@ -2,6 +2,12 @@
   padding: 20px;
   max-width: 1800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+  border-radius: 10px;
+  padding: 30px;
 }
 
 .header-section {
@@ -531,4 +537,40 @@
 /* Update all infrastructure heatmap cells to use the same grey color */
 .infrastructure-heatmap .heatmap-cell {
   background-color: #666666 !important;
+}
+
+/* =========================
+   Improved Background Video Visibility
+=========================== */
+.video-background {
+  height: 100%;
+  width: 100%;
+  float: left;
+  top: 0;
+  padding: none;
+  position: fixed;
+}
+
+.bg-video {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  /* Change from cover to contain to show the full video */
+  object-fit: contain;
+  /* Scale down to zoom out (values less than 1 make it smaller) */
+  scale: 1.1;
+}
+
+/* Make the container more transparent */
+.analyze-container {
+  background-color: rgba(0, 0, 0, 0.3); /* Reduced opacity from 0.6 to 0.3 */
+  backdrop-filter: blur(1px); /* Reduced blur effect */
+  border-radius: 10px;
+  padding: 30px;
 }
