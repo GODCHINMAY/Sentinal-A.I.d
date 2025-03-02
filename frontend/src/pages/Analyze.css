@@ -100,13 +100,29 @@
 }
 
 .metric-box {
-  background-color: #2A2A2A;
+  background-color: #383838;
   border-radius: 10px;
   padding: 20px;
+  border: 1px solid #505050;
+  margin-bottom: 5px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.metric-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background-color: #666666;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .metric-label {
-  color: #808080;
+  color: #ccc8c8;
   font-size: 1.2rem;
   margin-bottom: 15px;
 }
@@ -408,27 +424,37 @@
 }
 
 .frame-card {
-  background-color: #333333;
+  background-color: #424242;
   border-radius: 15px;
   padding: 20px;
   transition: transform 0.2s ease;
+  border: 2px solid #555555;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
 .frame-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-color: #666666;
 }
 
 .frame-card .frame-title {
   font-size: 1.8rem;
   margin-bottom: 20px;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid #555555;
+  padding-bottom: 15px;
 }
 
 .frame-image-container {
   margin-bottom: 20px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #666666;
 }
 
 .frame-image {
