@@ -1,0 +1,57 @@
+.status-updates {
+  background-color: #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-updates h3 {
+  color: white;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.update-item {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #444;
+  position: relative;
+  border-left: 4px solid;
+}
+
+.update-item.severity-high {
+  border-left-color: #ff3333;
+}
+
+.update-item.severity-medium {
+  border-left-color: #ff9900;
+}
+
+.update-item.severity-low {
+  border-left-color: #33cc33;
+}
+
+.update-message {
+  margin: 0 0 10px 0;
+  color: white;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.update-time {
+  display: block;
+  color: #aaa;
+  font-size: 12px;
+  text-align: right;
+} 

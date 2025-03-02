@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import "./App.css";
 import favicon from "./favicon.ico";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
-import Information from './pages/Information'
 import About from './pages/About'
 import Analyze from './pages/Analyze'
-import EarthDroneAnimation from "./pages/Globe";
 import SOS from './pages/SOS';
 import Aid from './pages/Aid';
+// Import the video
+import backgroundVideo from './assets/dronefootage.mp4';
 
 // Add favicon link tag
 const link = document.createElement('link');
@@ -40,7 +40,7 @@ const sosButtonStyle = {
 };
 
 // Move Layout outside of App and use useLocation here
-function Layout({ children }) {
+function Layout({ children, isHomePage = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -53,7 +53,19 @@ function Layout({ children }) {
       minHeight: '100vh',
       padding: '0',
       paddingTop: '0',
+      position: 'relative',
     }}>
+      {/* Background Video for Home Page */}
+      {isHomePage && (
+        <div className="video-background">
+          <video autoPlay loop muted playsInline className="background-video">
+            <source src={backgroundVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="video-overlay"></div>
+        </div>
+      )}
+      
       {/* SOS Button */}
       <button 
         style={sosButtonStyle}
@@ -104,7 +116,7 @@ function Layout({ children }) {
           >
             Home
           </Link>
-          {['analyze', 'information', 'aid', 'about'].map(path => (
+          {['analyze', 'aid', 'about'].map(path => (
             <Link 
               key={path}
               to={`/${path}`} 
@@ -134,7 +146,9 @@ function Layout({ children }) {
         margin: '20px auto',
         minHeight: 'calc(100vh - 200px)',
         ...fadeInAnimation,
-        animationDelay: '0.3s'
+        animationDelay: '0.3s',
+        position: 'relative',
+        zIndex: 2
       }}>
         {children}
       </div>
@@ -293,7 +307,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={
-          <Layout>
+          <Layout isHomePage={true}>
             <div className="app-container" style={{ 
               display: 'flex', 
               flexDirection: 'column',
@@ -305,10 +319,6 @@ function App() {
                 Revolutionizing Disaster Response Through <span style={{ textDecoration: 'underline' }}><em>AI-Powered Analysis</em></span>
               </h2>
               <div style={{margin: '0', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
-                <div style={{ flex: 1, display: 'flex' , justifyContent: 'center' }}>
-                  <EarthDroneAnimation />
-                  
-                </div>
                 <div style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div className="info-section" style={{
                     textAlign: 'center',
@@ -343,11 +353,6 @@ function App() {
               analysis={analysis}
               frameImages={frameImages}
             />
-          </Layout>
-        } />
-        <Route path="/information" element={
-          <Layout>
-            <Information />
           </Layout>
         } />
         <Route path="/about" element={

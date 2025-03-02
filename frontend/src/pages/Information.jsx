@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './Information.css';
+import EarthDroneAnimation from "./Globe";
 
 function Information() {
   const [showContent, setShowContent] = useState(false);
@@ -52,6 +54,16 @@ function Information() {
       maxWidth: '1800px',
       margin: '0 auto'
     }}>
+      {/* Add Globe component at the top */}
+      <div className="globe-container" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '30px 0 60px 0',
+        height: '400px'
+      }}>
+        <EarthDroneAnimation />
+      </div>
+      
       <div style={{
         textAlign: 'center',
         marginBottom: '60px'

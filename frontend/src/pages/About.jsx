@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import groupPhoto from '../assets/groupphoto.png'
+import './About.css'
+import EarthDroneAnimation from "./Globe"
 
 function About() {
   return (
@@ -12,6 +14,16 @@ function About() {
       height: '100%',
       padding: '40px'
     }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '0 auto 40px',
+        height: '400px',
+        width: '100%'
+      }}>
+        <EarthDroneAnimation />
+      </div>
+      
       <h1 style={{
         color: 'white',
         fontSize: '3.5rem',
