@@ -269,9 +269,9 @@ function SOS() {
 
   return (
     <div className="sos-container">
-      <div className="sos-header">
-        <h1>Emergency Drone Assistance</h1>
-        <button className="return-button" onClick={handleReturn}>Return to Safety</button>
+      <div className="sos-header" style={ {display: 'flex', flexDirection: 'column'} }>
+        <button className="return-button" onClick={handleReturn}>Return to Home</button>
+        <h1 style={{color: 'red'}}>Emergency Drone Assistance</h1>
       </div>
 
       <div className="sos-content">
@@ -315,23 +315,6 @@ function SOS() {
                       : `Please enter all 10 digits (${userInfo.phone.length}/10)`}
                   </p>
                 )}
-              </div>
-             
-              <div className="form-group">
-                <label htmlFor="emergencyType">Emergency Type</label>
-                <select
-                  id="emergencyType"
-                  name="emergencyType"
-                  value={userInfo.emergencyType}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="medical">Medical Emergency</option>
-                  <option value="fire">Fire</option>
-                  <option value="structural">Structural Damage</option>
-                  <option value="flooding">Flooding</option>
-                  <option value="other">Other Emergency</option>
-                </select>
               </div>
              
               <div className="form-group">
@@ -390,7 +373,6 @@ function SOS() {
               <h3>Emergency Contact</h3>
               <p><strong>Name:</strong> {userInfo.name}</p>
               <p><strong>Phone:</strong> {formatPhoneNumber(userInfo.phone)}</p>
-              <p><strong>Emergency Type:</strong> {userInfo.emergencyType.charAt(0).toUpperCase() + userInfo.emergencyType.slice(1)}</p>
               {userInfo.emergencyDetails && (
                 <p><strong>Details:</strong> {userInfo.emergencyDetails}</p>
               )}
@@ -450,8 +432,7 @@ function SOS() {
               <div className="drone-info">
                 <p><strong>ETA:</strong> {formatETA(droneEta)}</p>
                 <p><strong>Drone ID:</strong> SentinelAI-DR042</p>
-                <p><strong>Capabilities:</strong> Medical supplies, thermal imaging, communication relay</p>
-                <p><strong>Emergency Type:</strong> {userInfo.emergencyType.charAt(0).toUpperCase() + userInfo.emergencyType.slice(1)} Response</p>
+                <p><strong>Capabilities:</strong> Photography, medical supplies, water</p>
               </div>
              
               <p className="instructions">

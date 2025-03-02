@@ -1,11 +1,13 @@
 .sos-container {
+  width:60vw;
   min-height: 100vh;
-  background-color: #1a1a1a;
+  background-color: #333;
   padding: 20px;
   color: white;
 }
 
 .sos-header {
+  width:100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +23,7 @@
 }
 
 .return-button {
-  background-color: #333;
+  background-color: #202020;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -36,6 +38,7 @@
 }
 
 .sos-content {
+  width:100%;
   max-width: 800px;
   margin: 0 auto;
   display: flex;
@@ -259,21 +262,21 @@
 /* User Info Form Styles */
 .user-info-form-container {
   width: 100%;
-  background-color: #2A2A2A;
+  background-color: #e6e4e4;
   border-radius: 15px;
   padding: 30px;
   margin-bottom: 30px;
 }
 
 .user-info-form-container h2 {
-  color: white;
+  color: black;
   font-size: 2.2rem;
   margin-bottom: 20px;
   text-align: center;
 }
 
 .form-description {
-  color: #e0e0e0;
+  color: #706f6f;
   font-size: 1.4rem;
   text-align: center;
   margin-bottom: 30px;
@@ -292,7 +295,7 @@
 }
 
 .form-group label {
-  color: #e0e0e0;
+  color: black;
   font-size: 1.2rem;
 }
 
@@ -301,16 +304,14 @@
   padding: 12px 15px;
   border-radius: 8px;
   border: 1px solid #444;
-  background-color: #333;
-  color: white;
+  background-color: rgb(222, 221, 221);
   font-size: 1.2rem;
+  color: black;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
 .location-note {
@@ -452,7 +453,7 @@
 }
 
 .get-location-button {
-  background-color: #2196F3;
+  background-color: #202020;
   color: white;
   border: none;
   padding: 12px 15px;
@@ -465,7 +466,7 @@
 }
 
 .get-location-button:hover {
-  background-color: #0b7dda;
+  background-color: #4f4f4f;
 }
 
 .get-location-button:disabled {
@@ -499,27 +500,26 @@
 /* Location confirmed styles */
 .location-confirmed {
   margin-top: 15px;
-  background-color: rgba(76, 175, 80, 0.1);
+  background-color: rgba(76, 175, 80, 0.5);
   border-radius: 8px;
   padding: 12px;
-  border-left: 3px solid #4CAF50;
 }
 
 .location-success {
-  color: #4CAF50;
+  color: #3d8a3f;
   font-size: 1rem;
   font-weight: bold;
   margin: 0 0 8px 0;
 }
 
 .location-details {
-  color: #e0e0e0;
+  color: #202020;
   font-size: 0.95rem;
   margin: 5px 0;
 }
 
 .coordinates-details {
-  color: #bbbbbb;
+  color: #202020;
   font-size: 0.85rem;
   margin: 5px 0 0 0;
   font-family: monospace;
@@ -532,17 +532,21 @@ textarea {
   padding: 12px 15px;
   border-radius: 8px;
   border: 1px solid #444;
-  background-color: #333;
-  color: white;
+  background-color: rgb(222, 221, 221);
   font-size: 1.2rem;
   font-family: inherit;
 }
 
 textarea:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
+
+input,
+textarea {
+  color: black;
+  caret-color: black;
+}
+
 
 /* Drone Tracker Styles */
 .drone-tracker {
