@@ -27,7 +27,7 @@ function Analyze({
       {/* Upload Section */}
       <div className="upload-section">
         <div className="button-container">
-          <button className="action-button choose-button">
+          <button className="action-button choose-button" data-step="Step 1: Choose">
             <input 
               type="file" 
               accept="video/*" 
@@ -44,10 +44,10 @@ function Analyze({
             />
             Choose Video
           </button>
-          <button className="action-button upload-button" onClick={handleUpload}>
+          <button className="action-button upload-button" data-step="Step 2: Upload" onClick={handleUpload}>
             Upload
           </button>
-          <button className="action-button process-button" onClick={handleProcess}>
+          <button className="action-button process-button" data-step="Step 3: Process" onClick={handleProcess}>
             Process
           </button>
         </div>
