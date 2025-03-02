@@ -532,8 +532,3 @@
 .infrastructure-heatmap .heatmap-cell {
   background-color: #666666 !important;
 }
-
-/* Remove the previous rule that only targeted the last child */
-.infrastructure-heatmap .heatmap-cell:last-child {
-  /* This can be removed or commented out */
-} 
