@@ -7,7 +7,7 @@ import droneImage from '../assets/pngegg.png';
 import droneIcon from '../assets/camera-drone.png'; // Import the drone icon
 
 // Custom drone marker component that moves along the line
-function MovingDroneMarker({ startPoint, endPoint }) {
+function MovingDroneMarker({ startPoint, endPoint, speed = 0.001, color = '#00ff00', cargo = "Water supplies" }) {
   const map = useMap();
   const [position, setPosition] = useState(startPoint);
   const [progress, setProgress] = useState(0);
@@ -24,23 +24,18 @@ function MovingDroneMarker({ startPoint, endPoint }) {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 1) return 0; // Reset to start when reaching the end
-        return prev + 0.001; // Reduced speed of movement (was 0.005)
+        return prev + speed; // Speed of movement
       });
     }, 50);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [speed]);
   
   useEffect(() => {
     // Calculate position along the line based on progress
     const lat = startPoint[0] + (endPoint[0] - startPoint[0]) * progress;
     const lng = startPoint[1] + (endPoint[1] - startPoint[1]) * progress;
     setPosition([lat, lng]);
-    
-    // Ensure marker is created before trying to access it
-    if (markerRef.current) {
-      markerRef.current.openPopup();
-    }
   }, [progress, startPoint, endPoint]);
   
   return (
@@ -53,7 +48,7 @@ function MovingDroneMarker({ startPoint, endPoint }) {
         <div className="marker-popup">
           <h3>Drone Delivery</h3>
           <p><strong>Status:</strong> En route</p>
-          <p><strong>Cargo:</strong> Water supplies</p>
+          <p><strong>Cargo:</strong> {cargo}</p>
           <p><strong>ETA:</strong> 10 minutes</p>
         </div>
       </Popup>
@@ -424,9 +419,29 @@ function Aid() {
     }
   ];
 
-  // Define the specific coordinates
+  // Define the specific coordinates for the first path
   const supplierCoords = [39.680605, -75.753669]; // Green point
   const recipientCoords = [39.772907, -75.595519]; // Red point
+  
+  // Define the specific coordinates for the second path
+  const secondSupplierCoords = [39.768637, -75.705611]; // Second green point
+  const secondRecipientCoords = [39.725489, -75.536638]; // Second red point
+  
+  // Define the specific coordinates for the third path (help request)
+  const helpRequestCoords = [39.321477, -76.711912]; // Person asking for help
+  const helpSupplyCoords = [39.638061, -75.498640]; // Supply point responding
+  
+  // Define the specific coordinates for the fourth path
+  const fourthSupplyCoords = [39.523080, -76.349780]; // Supply point
+  const fourthRequestCoords = [39.314488, -75.597656]; // Location needing help
+  
+  // Define the specific coordinates for the fifth path
+  const fifthSupplyCoords = [40.023802, -76.263398]; // Supply point
+  const fifthRequestCoords = [39.868021, -75.716831]; // Location needing help
+  
+  // Define the specific coordinates for the sixth path
+  const sixthRequestCoords = [40.053855, -76.704422]; // Location needing help
+  const sixthSupplyCoords = [39.782318, -76.657465]; // Supply point
   
   // Create custom icons for the markers
   const greenMarkerIcon = new L.Icon({
@@ -443,13 +458,30 @@ function Aid() {
     popupAnchor: [1, -34]
   });
   
+  const orangeMarkerIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  });
+  
   // Add this to your existing getMapLocations function or create a new one
   const getAllMapLocations = () => {
     const locations = [...getMapLocations()];
     
-    // Add the specific coordinates
+    // Add all the specific coordinates
     locations.push(supplierCoords);
     locations.push(recipientCoords);
+    locations.push(secondSupplierCoords);
+    locations.push(secondRecipientCoords);
+    locations.push(helpRequestCoords);
+    locations.push(helpSupplyCoords);
+    locations.push(fourthSupplyCoords);
+    locations.push(fourthRequestCoords);
+    locations.push(fifthSupplyCoords);
+    locations.push(fifthRequestCoords);
+    locations.push(sixthRequestCoords);
+    locations.push(sixthSupplyCoords);
     
     return locations;
   };
@@ -476,6 +508,7 @@ function Aid() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           
+          {/* First Path */}
           {/* Supplier Point - Green Circle */}
           <Circle
             center={supplierCoords}
@@ -551,10 +584,429 @@ function Aid() {
           <MovingDroneMarker 
             startPoint={supplierCoords} 
             endPoint={recipientCoords} 
+            speed={0.001}
+            cargo="Water supplies"
+          />
+          
+          {/* Second Path */}
+          {/* Second Supplier Point - Green Circle */}
+          <Circle
+            center={secondSupplierCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Second Supplier Marker */}
+          <Marker
+            position={secondSupplierCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Medical Supply</h3>
+              <p><strong>From:</strong> Delaware Medical Center</p>
+              <p><strong>Sending:</strong> First aid kits and medications</p>
+              <p><strong>Message:</strong> "Medical supplies on the way!"</p>
+              <p><strong>Coordinates:</strong> 39.768637, -75.705611</p>
+            </Popup>
+          </Marker>
+          
+          {/* Second Recipient Point - Red Circle */}
+          <Circle
+            center={secondRecipientCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Second Recipient Marker */}
+          <Marker
+            position={secondRecipientCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Medical Aid Needed</h3>
+              <p><strong>Location:</strong> Wilmington, DE</p>
+              <p><strong>Request:</strong> Medical supplies</p>
+              <p><strong>Coordinates:</strong> 39.725489, -75.536638</p>
+            </Popup>
+          </Marker>
+          
+          {/* Second Black Line Connecting the Points */}
+          <Polyline
+            positions={[secondSupplierCoords, secondRecipientCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Second Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={secondSupplierCoords} 
+            endPoint={secondRecipientCoords}
+            speed={0.0008} // Slightly different speed for visual variety
+            cargo="Medical supplies"
+          />
+          
+          {/* Third Path - Help Request */}
+          {/* Help Request Point - Red Circle */}
+          <Circle
+            center={helpRequestCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Help Request Marker */}
+          <Marker
+            position={helpRequestCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>URGENT: Help Needed</h3>
+              <p><strong>From:</strong> Baltimore County</p>
+              <p><strong>Request:</strong> Food and shelter supplies</p>
+              <p><strong>Message:</strong> "Families stranded after flooding. Need immediate assistance."</p>
+              <p><strong>Coordinates:</strong> 39.321477, -76.711912</p>
+            </Popup>
+          </Marker>
+          
+          {/* Help Supply Point - Green Circle */}
+          <Circle
+            center={helpSupplyCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Help Supply Marker */}
+          <Marker
+            position={helpSupplyCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Emergency Response</h3>
+              <p><strong>From:</strong> Delaware Emergency Management</p>
+              <p><strong>Sending:</strong> Food, blankets, and emergency shelter kits</p>
+              <p><strong>Message:</strong> "Help is on the way. Hang tight!"</p>
+              <p><strong>Coordinates:</strong> 39.638061, -75.498640</p>
+            </Popup>
+          </Marker>
+          
+          {/* Third Black Line Connecting the Points */}
+          <Polyline
+            positions={[helpSupplyCoords, helpRequestCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Third Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={helpSupplyCoords} 
+            endPoint={helpRequestCoords}
+            speed={0.0012} // Faster speed for urgent help
+            cargo="Emergency supplies"
+          />
+          
+          {/* Fourth Path */}
+          {/* Fourth Supply Point - Green Circle */}
+          <Circle
+            center={fourthSupplyCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Fourth Supply Marker */}
+          <Marker
+            position={fourthSupplyCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Food & Water Supply</h3>
+              <p><strong>From:</strong> Harford County Relief</p>
+              <p><strong>Sending:</strong> Food packages and bottled water</p>
+              <p><strong>Message:</strong> "Relief supplies incoming. Stay safe!"</p>
+              <p><strong>Coordinates:</strong> 39.523080, -76.349780</p>
+            </Popup>
+          </Marker>
+          
+          {/* Fourth Request Point - Red Circle */}
+          <Circle
+            center={fourthRequestCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Fourth Request Marker */}
+          <Marker
+            position={fourthRequestCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Help Needed</h3>
+              <p><strong>Location:</strong> Kent County</p>
+              <p><strong>Request:</strong> Food and water for 30 people</p>
+              <p><strong>Message:</strong> "Power outage for 3 days. Running low on supplies."</p>
+              <p><strong>Coordinates:</strong> 39.314488, -75.597656</p>
+            </Popup>
+          </Marker>
+          
+          {/* Fourth Black Line Connecting the Points */}
+          <Polyline
+            positions={[fourthSupplyCoords, fourthRequestCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Fourth Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={fourthSupplyCoords} 
+            endPoint={fourthRequestCoords}
+            speed={0.0009} // Different speed
+            cargo="Food and water"
+          />
+          
+          {/* Fifth Path */}
+          {/* Fifth Supply Point - Green Circle */}
+          <Circle
+            center={fifthSupplyCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Fifth Supply Marker */}
+          <Marker
+            position={fifthSupplyCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Shelter & Clothing</h3>
+              <p><strong>From:</strong> New Castle Community Center</p>
+              <p><strong>Sending:</strong> Tents, blankets, and clothing</p>
+              <p><strong>Message:</strong> "Shelter supplies on the way. Stay strong!"</p>
+              <p><strong>Coordinates:</strong> 39.468411, -75.716831</p>
+            </Popup>
+          </Marker>
+          
+          {/* Fifth Request Point - Red Circle */}
+          <Circle
+            center={fifthRequestCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Fifth Request Marker */}
+          <Marker
+            position={fifthRequestCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Shelter Needed</h3>
+              <p><strong>Location:</strong> Northern Delaware</p>
+              <p><strong>Request:</strong> Emergency shelter for 15 families</p>
+              <p><strong>Message:</strong> "Homes damaged by storm. Need temporary shelter urgently."</p>
+              <p><strong>Coordinates:</strong> 39.868021, -75.716831</p>
+            </Popup>
+          </Marker>
+          
+          {/* Fifth Black Line Connecting the Points */}
+          <Polyline
+            positions={[fifthSupplyCoords, fifthRequestCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Fifth Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={fifthSupplyCoords} 
+            endPoint={fifthRequestCoords}
+            speed={0.0011} // Different speed
+            cargo="Shelter supplies"
+          />
+          
+          {/* Sixth Path */}
+          {/* Sixth Request Point - Red Circle */}
+          <Circle
+            center={sixthRequestCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#ff0000', 
+              fillColor: '#ff0000', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Sixth Request Marker */}
+          <Marker
+            position={sixthRequestCoords}
+            icon={redMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>URGENT: Medical Help</h3>
+              <p><strong>Location:</strong> Lancaster County</p>
+              <p><strong>Request:</strong> Medical supplies and personnel</p>
+              <p><strong>Message:</strong> "Multiple injuries after building collapse. Need medical assistance ASAP."</p>
+              <p><strong>Coordinates:</strong> 40.053855, -76.704422</p>
+            </Popup>
+          </Marker>
+          
+          {/* Sixth Supply Point - Green Circle */}
+          <Circle
+            center={sixthSupplyCoords}
+            radius={300}
+            pathOptions={{ 
+              color: '#00ff00', 
+              fillColor: '#00ff00', 
+              fillOpacity: 0.4,
+              weight: 2
+            }}
+            eventHandlers={{
+              click: (e) => {
+                e.target.openPopup();
+              }
+            }}
+          />
+          
+          {/* Sixth Supply Marker */}
+          <Marker
+            position={sixthSupplyCoords}
+            icon={greenMarkerIcon}
+          >
+            <Popup className="marker-popup">
+              <h3>Medical Response Team</h3>
+              <p><strong>From:</strong> York County Emergency Services</p>
+              <p><strong>Sending:</strong> Paramedics and emergency medical supplies</p>
+              <p><strong>Message:</strong> "Medical team dispatched. ETA 15 minutes."</p>
+              <p><strong>Coordinates:</strong> 39.782318, -76.657465</p>
+            </Popup>
+          </Marker>
+          
+          {/* Sixth Black Line Connecting the Points */}
+          <Polyline
+            positions={[sixthSupplyCoords, sixthRequestCoords]}
+            pathOptions={{ 
+              color: 'black', 
+              weight: 2,
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Sixth Moving Drone Marker */}
+          <MovingDroneMarker 
+            startPoint={sixthSupplyCoords} 
+            endPoint={sixthRequestCoords}
+            speed={0.0015} // Faster speed for medical emergency
+            cargo="Medical team & supplies"
           />
           
           {/* Map Controller to fit all points */}
-          <MapController locations={[supplierCoords, recipientCoords]} />
+          <MapController locations={[
+            supplierCoords, 
+            recipientCoords, 
+            secondSupplierCoords, 
+            secondRecipientCoords,
+            helpRequestCoords,
+            helpSupplyCoords,
+            fourthSupplyCoords,
+            fourthRequestCoords,
+            fifthSupplyCoords,
+            fifthRequestCoords,
+            sixthRequestCoords,
+            sixthSupplyCoords
+          ]} />
         </MapContainer>
       </div>
       
