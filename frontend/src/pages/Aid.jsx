@@ -488,7 +488,10 @@ function Aid() {
 
   return (
     <div className="aid-container">
-      <h1 className="aid-title">Emergency Aid Coordination</h1>
+      <div className="aid-header">
+        <h1 className="aid-title">Emergency Aid Coordination</h1>
+        <p className="aid-subtitle">A community based effort, assisting those in need</p>
+      </div>
       
       {/* Map Section */}
       <div className="map-section">

@@ -12,6 +12,34 @@
   font-weight: 700;
 }
 
+.aid-subtitle {
+  color: #d0d0d0;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 40px;
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.aid-subtitle:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Map Section */
 .map-section {
   margin-bottom: 40px;
