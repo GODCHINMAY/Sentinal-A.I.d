@@ -24,7 +24,7 @@ function MovingDroneMarker({ startPoint, endPoint }) {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 1) return 0; // Reset to start when reaching the end
-        return prev + 0.005; // Speed of movement
+        return prev + 0.001; // Reduced speed of movement (was 0.005)
       });
     }, 50);
     
