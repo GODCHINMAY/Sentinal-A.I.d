@@ -1,4 +1,4 @@
-# 🚁 Disaster Response AI - README
+# 🚁 Sentinel-AId - README
 
 ## 📜 Table of Contents
 1. [🌍 Mission](#-mission)
