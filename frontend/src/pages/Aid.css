@@ -1,0 +1,385 @@
+.aid-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aid-title {
+  color: white;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* Map Section */
+.map-section {
+  margin-bottom: 40px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #444;
+}
+
+/* Mode Selection */
+.mode-selection {
+  background-color: #2A2A2A;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mode-selection h2 {
+  color: white;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+}
+
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.mode-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  width: 300px;
+  transition: all 0.3s ease;
+  background-color: #333;
+}
+
+.request-button {
+  border: 2px solid #ff4d4d;
+}
+
+.request-button:hover {
+  background-color: rgba(255, 77, 77, 0.2);
+  transform: translateY(-5px);
+}
+
+.supply-button {
+  border: 2px solid #4CAF50;
+}
+
+.supply-button:hover {
+  background-color: rgba(76, 175, 80, 0.2);
+  transform: translateY(-5px);
+}
+
+.mode-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.mode-label {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.mode-description {
+  color: #B0B0B0;
+  font-size: 1.2rem;
+}
+
+/* Form Section */
+.form-section {
+  background-color: #2A2A2A;
+  border-radius: 15px;
+  padding: 40px;
+  margin-bottom: 30px;
+}
+
+.form-section h2 {
+  color: white;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-description {
+  color: #B0B0B0;
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.aid-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  color: white;
+  font-size: 1.4rem;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.input-note {
+  font-size: 0.9rem;
+  color: #B0B0B0;
+  margin-top: 5px;
+}
+
+/* Resources Checkboxes */
+.resources-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.resource-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resource-checkbox:hover {
+  background-color: #444;
+}
+
+.resource-icon {
+  font-size: 1.5rem;
+}
+
+.resource-checkbox span:last-child {
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* Location Section */
+.get-location-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.get-location-button:hover {
+  background-color: #3d8b40;
+}
+
+.location-loading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.location-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #4CAF50;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.location-confirmed {
+  background-color: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid #4CAF50;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 4px;
+}
+
+.location-success {
+  color: #4CAF50;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.location-details,
+.coordinates-details {
+  color: #B0B0B0;
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.back-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #444;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #3d8b40;
+}
+
+/* Success Message */
+.success-message {
+  background-color: #2A2A2A;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.success-message .success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  color: white;
+  margin: 0 auto 30px;
+}
+
+.success-message h2 {
+  color: #4CAF50;
+  font-size: 2.4rem;
+  margin-bottom: 30px;
+}
+
+.success-details {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.success-details p {
+  font-size: 1.4rem;
+  margin: 10px 0;
+  color: #e0e0e0;
+}
+
+.eta-info {
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  display: inline-block;
+}
+
+.eta-info p {
+  color: #e0e0e0;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+/* Marker Popup Styles */
+.marker-popup h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.marker-popup p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .mode-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mode-button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .form-section {
+    padding: 20px;
+  }
+  
+  .resources-checkboxes {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .back-button,
+  .submit-button {
+    width: 100%;
+  }
+} 

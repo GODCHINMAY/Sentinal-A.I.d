@@ -7,6 +7,7 @@ import About from './pages/About'
 import Analyze from './pages/Analyze'
 import EarthDroneAnimation from "./pages/Globe";
 import SOS from './pages/SOS';
+import Aid from './pages/Aid';
 
 // Add favicon link tag
 const link = document.createElement('link');
@@ -103,7 +104,7 @@ function Layout({ children }) {
           >
             Home
           </Link>
-          {['analyze', 'information', 'about'].map(path => (
+          {['analyze', 'information', 'aid', 'about'].map(path => (
             <Link 
               key={path}
               to={`/${path}`} 
@@ -306,6 +307,7 @@ function App() {
               <div style={{margin: '0', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
                 <div style={{ flex: 1, display: 'flex' , justifyContent: 'center' }}>
                   <EarthDroneAnimation />
+                  
                 </div>
                 <div style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div className="info-section" style={{
@@ -354,6 +356,11 @@ function App() {
           </Layout>
         } />
         <Route path="/sos" element={<SOS />} />
+        <Route path="/aid" element={
+          <Layout>
+            <Aid />
+          </Layout>
+        } />
       </Routes>
     </Router>
   );
