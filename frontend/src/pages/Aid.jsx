@@ -1250,46 +1250,7 @@ function Aid() {
         </button>
       </div>
       
-      {/* Map showing the aid location */}
-      <div className="aid-map">
-        <div className="map-container">
-          <div className="map-point green" onClick={() => setShowMessage(!showMessage)}>
-            <div className="point-pulse"></div>
-          </div>
-          <div className="map-point red"></div>
-          
-          {/* Line connecting points */}
-          <div className="map-line"></div>
-          
-          {/* Drone animation */}
-          <div 
-            className="drone-icon" 
-            style={{ 
-              left: `${dronePosition}%`,
-              top: `calc(50% - ${dronePosition * 0.2}px)`
-            }}
-          >
-            <img src={droneImage} alt="Drone" />
-          </div>
-          
-          {/* Coordinates */}
-          <div className="coordinates start">39.680693, -75.753817</div>
-          <div className="coordinates end">39.65, -75.72</div>
-        </div>
-        
-        {/* Message popup */}
-        {showMessage && (
-          <div className="aid-message">
-            <h3>Aid Shipment</h3>
-            <p><strong>From:</strong> Nazim Karaca</p>
-            <p><strong>Sending:</strong> Water supplies</p>
-            <p><strong>Message:</strong> "Hope this helps!"</p>
-            <p><strong>Status:</strong> <span className="status-active">En route</span></p>
-            <p><strong>Coordinates:</strong> 39.680693, -75.753817</p>
-            <button onClick={() => setShowMessage(false)}>Close</button>
-          </div>
-        )}
-      </div>
+      
       
       <div className="aid-list">
         {activeTab === 'available' ? (
