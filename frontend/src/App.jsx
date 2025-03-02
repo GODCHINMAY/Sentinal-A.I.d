@@ -7,7 +7,7 @@ import Analyze from './pages/Analyze'
 import SOS from './pages/SOS';
 import Aid from './pages/Aid';
 // Import the video
-import backgroundVideo from './assets/dronefootage.mp4';
+import backgroundVideo from './assets/dronefootage2.mp4';
 
 // Add favicon link tag
 const link = document.createElement('link');
