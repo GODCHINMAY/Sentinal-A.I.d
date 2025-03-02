@@ -1,4 +1,6 @@
-# 🚁 Sentinel-AId - README
+# 🚁 Sentinel-AId 
+(Submitting for Safety & Emergency Management category)
+(Submitting for Best Use of AI powered by Reach Capital & Best Domain Name from GoDaddy Registry)
 
 ## 📜 Table of Contents
 1. [🌍 Mission](#-mission)
@@ -24,13 +26,13 @@ Sentinel-AId is a AI driven disaster management system. It has 3 main features:
 ---
 
 ## ✨ Features
-✅ AI-powered disaster assessment using **OPENAI API**
+✅ AI-powered disaster assessment using **OPENAI API**                   
 ✅ SOS button to summon drone to analyze emergency situation.    
 ✅ Community based aid exchange to efficiently locate and allocate resources    
 ✅ Triage system prioritizing disasters based on severity  
 ✅ Interactive UI with a drone GIF on the homepage  
 ✅ Disaster preparedness resources and local risk analysis tool  
-✅ Fully deployed website for real-world application  
+✅ Registered GoDaddy Domain name : sentinal-aid.us
 
 ---
 
@@ -88,25 +90,29 @@ Meet the amazing team of Sentinel-A.I.d!:
   <table>
     <tr>
       <td align="center">
-        <p><strong>Paul</strong></p>
+        <p><strong>Paul Edelman</strong></p>
         <a href="https://www.linkedin.com/in/paul-edelman/">
           <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
         </a>
+      pedelman@udel.edu
       </td>
       <td align="center">
-        <p><strong>Shaurya</strong></p>
+        <p><strong>Shaurya Kumar</strong></p>
         <a href="https://www.linkedin.com/in/shauryak/">
           <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
         </a>
+        shaurya@udel.edu
       </td>
       <td align="center">
-        <p><strong>Chinmay</strong></p>
+        <p><strong>Chinmay Agrawal</strong></p>
         <a href="https://www.linkedin.com/in/cagrawal19/">
           <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
         </a>
+          cagrawal@udel.edu
       </td>
     </tr>
   </table>
 </div>
 
 <p align="right"><a href="#readme-top">↑ Back to Top ↑</a></p>
+Made with ❤️.
