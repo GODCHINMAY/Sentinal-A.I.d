@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import groupPhoto from '../assets/groupphoto.png'
 
 function About() {
   return (
@@ -28,12 +29,25 @@ function About() {
         border: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
       }}>
+        <img 
+          src={groupPhoto} 
+          alt="Team Photo" 
+          style={{
+            maxWidth: '100%',
+            borderRadius: '10px',
+            marginBottom: '30px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+          }}
+        />
+        
         <p style={{
           color: 'white',
           fontSize: '2rem',
           marginBottom: '30px',
           lineHeight: '1.6'
-        }}>Made by Chinmay</p>
+        }}>Made by Paul Edelman (Computer Science & Applied Mathematics, 2027), Shaurya Kumar (Computer Science & Applied Mathematics, 2027), 
+        and Chinmay Agrawal (Data Science & Mathematics, 2027). This was a project completed for HenHacks, the third annual hackathon hosted by the University of Delaware.
+        </p>
         
         <p style={{
           color: '#ff9999',
