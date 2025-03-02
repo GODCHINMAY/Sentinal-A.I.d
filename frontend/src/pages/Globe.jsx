@@ -7,6 +7,7 @@ const EarthDroneAnimation = () => {
     const [earthRotation, setEarthRotation] = useState(0);
     const [drone1Position, setDrone1Position] = useState({ x: 0, y: 0 });
     const [drone2Position, setDrone2Position] = useState({ x: 0, y: 0 });
+    const [showMessage, setShowMessage] = useState(false);
   
     // Animation loop using useEffect
     useEffect(() => {
@@ -33,6 +34,37 @@ const EarthDroneAnimation = () => {
       // Clean up animation frame on unmount
       return () => cancelAnimationFrame(animationFrame);
     });
+
+    // Convert lat/lng to x,y coordinates on the globe
+    const latLngToXY = (lat, lng) => {
+      // Simple conversion for demonstration
+      // This is a very simplified conversion that works for this visual demo
+      // Real lat/lng to 3D would be more complex
+      
+      // Normalize lat from -90/90 to 0/180
+      const normalizedLat = (90 - lat) / 180;
+      // Normalize lng from -180/180 to 0/360
+      const normalizedLng = (lng + 180) / 360;
+      
+      // Convert to x,y coordinates on the globe
+      // Center of globe is at (50%, 50%)
+      const radius = 120; // Half of the 240px earth diameter
+      
+      // Calculate position based on normalized coordinates
+      // This is a simple projection that works for the visual effect
+      const x = Math.cos(normalizedLng * Math.PI * 2) * Math.sin(normalizedLat * Math.PI) * radius;
+      const y = Math.cos(normalizedLat * Math.PI) * radius;
+      
+      return { x, y };
+    };
+    
+    // Coordinates for Delaware
+    const delawareCoords = { lat: 39.680693, lng: -75.753817 };
+    const delawareXY = latLngToXY(delawareCoords.lat, delawareCoords.lng);
+    
+    // Coordinates for a destination point (example)
+    const destinationCoords = { lat: 39.65, lng: -75.72 };
+    const destinationXY = latLngToXY(destinationCoords.lat, destinationCoords.lng);
   
     return (
       <div style={{ position: 'relative', width: '700px', height: '450px', backgroundColor: '#1e293b', overflow: 'hidden', borderRadius: '12px' }}>
@@ -49,15 +81,72 @@ const EarthDroneAnimation = () => {
         >
           {/* Earth image */}
           <div style={{ width: '240px', height: '240px', borderRadius: '50%', backgroundColor: '#3b82f6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {/* If the image is in the public folder, use */}
             <img 
-              src={earthImage} // Adjust the path if necessary
+              src={earthImage}
               alt="Earth" 
               style={{ width: '100%', height: '100%', borderRadius: '50%', zIndex: 100 }}
             />
-            {/* Or, if using imports from src folder, use the imported variable */}
-            {/* <img src={earthImage} alt="Earth" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> */}
           </div>
+          
+          {/* Green circle at Delaware coordinates */}
+          <div 
+            style={{
+              position: 'absolute',
+              left: `calc(50% + ${delawareXY.x}px)`,
+              top: `calc(50% + ${delawareXY.y}px)`,
+              width: '12px',
+              height: '12px',
+              backgroundColor: '#00ff00',
+              borderRadius: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 3,
+              boxShadow: '0 0 8px #00ff00',
+              cursor: 'pointer'
+            }}
+            onClick={() => setShowMessage(!showMessage)}
+          />
+          
+          {/* Red circle at destination coordinates */}
+          <div 
+            style={{
+              position: 'absolute',
+              left: `calc(50% + ${destinationXY.x}px)`,
+              top: `calc(50% + ${destinationXY.y}px)`,
+              width: '12px',
+              height: '12px',
+              backgroundColor: '#ff0000',
+              borderRadius: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 3,
+              boxShadow: '0 0 8px #ff0000'
+            }}
+          />
+          
+          {/* Line connecting the points */}
+          <svg 
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: '240px',
+              height: '240px',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 2,
+              pointerEvents: 'none'
+            }}
+          >
+            <line 
+              x1={120 + delawareXY.x} 
+              y1={120 + delawareXY.y} 
+              x2={120 + destinationXY.x} 
+              y2={120 + destinationXY.y} 
+              style={{
+                stroke: 'rgba(255, 255, 255, 0.7)',
+                strokeWidth: '2',
+                strokeDasharray: '5,5'
+              }} 
+            />
+          </svg>
         </div>
   
         {/* Drone 1 */}
@@ -71,7 +160,7 @@ const EarthDroneAnimation = () => {
         >
           <div style={{ width: '68px', height: '68px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img 
-              src={droneImage} // Adjust the path if necessary
+              src={droneImage}
               alt="Drone 1" 
               style={{ width: '100%', height: '100%', transform: 'scaleX(-1)' }}
             />
@@ -89,12 +178,53 @@ const EarthDroneAnimation = () => {
         >
           <div style={{ width: '68px', height: '68px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img 
-              src={droneImage} // Placeholder image path, or adjust accordingly
+              src={droneImage}
               alt="Drone 2" 
               style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>
+        
+        {/* Message popup */}
+        {showMessage && (
+          <div 
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '20%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '15px',
+              borderRadius: '10px',
+              zIndex: 10,
+              maxWidth: '300px',
+              boxShadow: '0 0 15px rgba(0, 255, 0, 0.3)',
+              border: '1px solid #00ff00'
+            }}
+          >
+            <h3 style={{ margin: '0 0 10px 0', color: '#00ff00' }}>Aid Shipment</h3>
+            <p style={{ margin: '0 0 5px 0' }}><strong>From:</strong> Nazim Karaca</p>
+            <p style={{ margin: '0 0 5px 0' }}><strong>Sending:</strong> Water supplies</p>
+            <p style={{ margin: '0 0 5px 0' }}><strong>Message:</strong> "Hope this helps!"</p>
+            <p style={{ margin: '0 0 5px 0' }}><strong>Status:</strong> <span style={{ color: '#00ff00' }}>En route</span></p>
+            <p style={{ margin: '0 0 5px 0' }}><strong>Coordinates:</strong> 39.680693, -75.753817</p>
+            <button 
+              style={{
+                backgroundColor: '#333',
+                color: 'white',
+                border: '1px solid #00ff00',
+                padding: '5px 10px',
+                marginTop: '10px',
+                cursor: 'pointer',
+                borderRadius: '5px'
+              }}
+              onClick={() => setShowMessage(false)}
+            >
+              Close
+            </button>
+          </div>
+        )}
       </div>
     );
   };
