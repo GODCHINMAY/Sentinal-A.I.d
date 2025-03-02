@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate 
 import Information from './pages/Information'
 import About from './pages/About'
 import Analyze from './pages/Analyze'
-import Rebuild from './pages/Rebuild'
 import EarthDroneAnimation from "./pages/Globe";
 import SOS from './pages/SOS';
 
@@ -104,7 +103,7 @@ function Layout({ children }) {
           >
             Home
           </Link>
-          {['analyze', 'information', 'rebuild', 'about'].map(path => (
+          {['analyze', 'information', 'about'].map(path => (
             <Link 
               key={path}
               to={`/${path}`} 
@@ -352,11 +351,6 @@ function App() {
         <Route path="/about" element={
           <Layout>
             <About />
-          </Layout>
-        } />
-        <Route path="/rebuild" element={
-          <Layout>
-            <Rebuild />
           </Layout>
         } />
         <Route path="/sos" element={<SOS />} />
