@@ -44,12 +44,8 @@ function InfrastructureHeatmap({ analysis }) {
   
   // Calculate intensity color based on percentage
   const getIntensityColor = (percentage) => {
-    // Color gradient focused on violet shades
-    if (percentage >= 80) return '#4a148c'; // Very high - deep violet
-    if (percentage >= 60) return '#6a1b9a'; // High - dark violet
-    if (percentage >= 40) return '#8e24aa'; // Medium-high - medium violet
-    if (percentage >= 20) return '#ab47bc'; // Medium - lighter violet
-    return '#ce93d8'; // Low - light violet
+    // Use the same grey color for all cells
+    return '#666666';
   };
   
   return (
