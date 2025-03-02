@@ -4,6 +4,7 @@ import './Analyze.css'
 import '../components/AnalysisCharts.css'
 import AnalysisCharts from '../components/AnalysisCharts'
 import InfrastructureHeatmap from '../components/InfrastructureHeatmap'
+import Hovering from '../components/Hovering'
 
 function Analyze({ 
   handleFileChange, 
@@ -20,10 +21,13 @@ function Analyze({
       <div className="header-section">
         <h1 className="header-title">Analyze Disaster Footage</h1>
         <p className="header-description">
-          Upload your footage to receive AI-powered analysis of damage severity, critical response needs, and potential hazards.
+          Upload your Drone footage to receive AI-powered analysis of damage severity, critical response needs, and potential hazards.
         </p>
       </div>
-
+      
+      {/* Hovering Drone Animation */}
+      <Hovering />
+      
       {/* Upload Section */}
       <div className="upload-section">
         <div className="button-container">
