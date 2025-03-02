@@ -73,4 +73,40 @@ Sentinel-AId is a AI driven disaster management system. It has 3 main features:
 
 ---
 
+
 🚀 *Join us in building a faster, smarter, and more effective disaster response system!* 🌟
+
+Join us in our mission to revolutionize disaster relief with advanced drone technology:
+- Share your innovative tips and insights on optimizing drone operations.
+- Participate in engaging discussions on harnessing AI and drone technology for disaster response.
+- Help shape the future of Sentinel-A.I.d as we combine cutting-edge tech with community expertise to save lives and rebuild communities!
+
+Meet the amazing team of Sentinel-A.I.d!:
+
+![image](https://github.com/user-attachments/assets/68741c6b-f361-4263-bd2e-0353f58daa62)
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <p><strong>Paul</strong></p>
+        <a href="https://www.linkedin.com/in/paul-edelman/">
+          <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
+        </a>
+      </td>
+      <td align="center">
+        <p><strong>Shaurya</strong></p>
+        <a href="https://www.linkedin.com/in/shauryak/">
+          <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
+        </a>
+      </td>
+      <td align="center">
+        <p><strong>Chinmay</strong></p>
+        <a href="https://www.linkedin.com/in/cagrawal19/">
+          <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p align="right"><a href="#readme-top">↑ Back to Top ↑</a></p>
