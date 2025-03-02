@@ -316,7 +316,7 @@ function App() {
             }}>
               <h1 style={{ margin: '4% 0 0 0', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', color: 'red' }}>Sentinal-A.I.d</h1>
               <h2 style={{ margin: '0', textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)', color: '#ffffff' }}>
-                Revolutionizing Disaster Response Through <span style={{ textDecoration: 'underline' }}><em>AI-Powered Analysis</em></span>
+                Revolutionizing Disaster Response With Drones Through <span style={{ textDecoration: 'underline' }}><em>AI-Powered Analysis</em></span>
               </h2>
               <div style={{margin: '0', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%'}}>
                 <div style={{ flex: 1, textAlign: 'left', paddingLeft: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
